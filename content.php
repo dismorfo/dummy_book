@@ -4,14 +4,11 @@
  * A command-line Drupal script to create a dummy book
  * drush -r /Users/albertoortizflores/tools/sites/book_test --user=1 --uri=http://localhost/book_test scr import_dummy_book.php
  */
-
 function create_dummy_books($books) {
 
   foreach ($books as $value) {
 
     $xml = simplexml_load_file($value->uri);
-
-    $type = 'dlts_book'; // the machine name of the content type
 
     foreach($xml->node as $child) {
 
@@ -24,7 +21,7 @@ function create_dummy_books($books) {
 
         $page['service_copy'] = (array) $page['service_copy'];
 
-        $page['cropped_master'] = (array) $page['cropped_master'];        
+        $page['cropped_master'] = (array) $page['cropped_master'];
 
         $pages_array[] = (array) $page;
 
@@ -135,7 +132,7 @@ function create_dummy_books($books) {
 
       if ($created->nid) {
 
-        drush_print(t('Book "@title" was successfully processed. (nid: @nid)', array('@nid' => $created->nid, '@title' => $created->title )));
+        drush_log(t('Book "@title" was successfully processed. (nid: @nid)', array('@nid' => $created->nid, '@title' => $created->title )), 'ok');
 
         foreach($pages_array as $key => $page) {
 
@@ -325,6 +322,25 @@ function multivol_nid($identifier) {
 
 }
 
+function multivol_book_nid($identifier, $volume_page) {
+
+  $query = new EntityFieldQuery;
+  
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'dlts_multivol')
+    ->fieldCondition('field_identifier', 'value', $identifier, '=')
+	->fieldCondition('field_volume_number', 'value', $volume_page, '=')
+    ->execute();
+    
+  if (empty($result['node'])) return FALSE;
+
+  $keys = array_keys($result['node']);
+
+  return (int)$keys[0];
+
+}
+
 function book_page_nid($book_nid, $sequence_number) {
 
   $query = new EntityFieldQuery;
@@ -432,6 +448,96 @@ function create_dlts_book_page( $node ) {
 
 }
 
+function create_dlts_multivol_book($node) {
+	
+  global $user;
+  
+  $multivol_book_exist = multivol_book_nid($node['identifier']);
+  
+  if ($multivol_book_exist) {
+  
+    // Load the node by NID
+    $entity = node_load($book_exist);
+    
+    // Wrap it with Entity API
+    $ewrapper = entity_metadata_wrapper('node', $entity);
+
+  }
+  
+  else {
+  
+    // entity_create replaces the procedural steps in the first example of
+    // creating a new object $node and setting its 'type' and uid property
+    $values = array(
+      'type' => 'dlts_multivol_book',
+      'uid' => $user->uid,
+      'status' => 1,
+      'comment' => 0,
+      'promote' => 0,
+    );
+  
+    $entity = entity_create('node', $values);
+  
+    // The entity is now created, but we have not yet simplified use of it.
+    // Now create an entity_metadata_wrapper around the new node entity
+    // to make getting and setting values easier
+    $ewrapper = entity_metadata_wrapper('node', $entity);
+  
+  }
+  
+  $ewrapper->title->set( $node['title'] );
+  
+  if ($node['collections']) {
+
+  	$collections_nids = array();
+
+    foreach($node['collections'] as $collection) {
+  	  $nid = collection_nid($collection);
+  	  if ($nid) {
+        $collections_nids[] = $nid;
+	  }
+	  else {
+	    drush_log( t('Multi Volume Book "@title" is part of collection "@collection", but collection does not exist. Skip.', array( '@title' => $node['title'], '@collection' => $collection, ) ), 'warning' );
+	  }
+    }
+
+	$ewrapper->field_collection->set( $collections_nids );
+
+  }
+  
+  if ($node['identifier']) {
+    $ewrapper->field_identifier->set( $node['identifier'] );
+  }
+
+  if ($node['volume_number']) {
+    $ewrapper->field_volume_number->set( $node['volume_number'] );
+  }
+  
+  if ($node['book']) {
+    $book_exist = book_nid($node['book']);
+    if ($book_exist) {
+      $ewrapper->field_book->set( $book_exist ) ;
+    }
+  }
+  
+  if ($node['multivol']) {
+  	
+    $multivol_exist = multivol_nid($node['multivol']);
+	  
+	$multivol_node = node_load($multivol_exist);
+	
+    if ($multivol_exist) {
+      $ewrapper->field_multivol->set( $multivol_exist ) ;
+    }
+  }  
+  
+  
+  $ewrapper->save();
+  
+  return $entity;
+  
+}
+
 function create_dlts_book( $node ) {
 
   global $user;
@@ -483,7 +589,6 @@ function create_dlts_book( $node ) {
   
   $ewrapper->field_identifier->set( $node['identifier'] );
   
-  
   $collections_nids = array();
   
   foreach($node['collections'] as $collection) {
@@ -498,17 +603,6 @@ function create_dlts_book( $node ) {
   
   $multivol_nids[] = array();
   
-  foreach($node['multivol'] as $multivol) {
-  	drush_log($multivol['identifier'], 'ok');
-  	$nid = multivol_nid($multivol['identifier']);
-  	if ($nid) {
-      $multivol_nids[] = $nid;
-	}
-	else {
-	  drush_log( t('Book "@title" is part of multi volume set "@multivol", but multi volume does not exist. Skip.', array( '@title' => $node['title'], '@multivol' => $multivol['identifier'], ) ), 'warning' );
-	}
-  }  
-  
   $ewrapper->field_collection->set( $collections_nids );
   
   if (!empty($node['isbn'])) {
@@ -516,59 +610,59 @@ function create_dlts_book( $node ) {
   }
 
   if (!empty($node['handle'])) {
-    $ewrapper->field_handle->set( array( 'url' => $node['handle'] ) );  
+    $ewrapper->field_handle->set( array( 'url' => $node['handle'] ) );
   }
   
   if (!empty($node['title_long'])) {
-    $ewrapper->field_title->set( $node['title_long'] );  
+    $ewrapper->field_title->set( $node['title_long'] );
   }  
   
   if (!empty($node['subtitle'])) {
-    $ewrapper->field_subtitle->set( $node['subtitle'] );  
+    $ewrapper->field_subtitle->set( $node['subtitle'] );
   }  
   
   if (!empty($node['description'])) {
-    $ewrapper->field_description->set( $node['description'] );  
+    $ewrapper->field_description->set( $node['description'] );
   }  
   
   if (!empty($node['page_count'])) {
-    $ewrapper->field_page_count->set( $node['page_count'] );  
+    $ewrapper->field_page_count->set( $node['page_count'] );
   }  
   
   if (!empty($node['editor'])) {
-    $ewrapper->field_editor->set( $node['editor'] );  
+    $ewrapper->field_editor->set( $node['editor'] );
   }
 
   if (!empty($node['creator'])) {
-    $ewrapper->field_creator->set( $node['creator'] );  
+    $ewrapper->field_creator->set( $node['creator'] );
   }
   
   if (!empty($node['author'])) {
-    $ewrapper->field_author->set( $node['author'] );  
+    $ewrapper->field_author->set( $node['author'] );
   }  
   
   if (!empty($node['publisher'])) {
-    $ewrapper->field_publisher->set( $node['publisher'] );  
+    $ewrapper->field_publisher->set( $node['publisher'] );
   }  
   
   if (!empty($node['contributor'])) {
-    $ewrapper->field_contributor->set( $node['contributor'] );  
+    $ewrapper->field_contributor->set( $node['contributor'] );
   }  
   
   if (!empty($node['dimensions'])) {
-    $ewrapper->field_dimensions->set( $node['dimensions'] );  
+    $ewrapper->field_dimensions->set( $node['dimensions'] );
   }
 
   if (!empty($node['volume'])) {
-    $ewrapper->field_volume->set( $node['volume'] );  
+    $ewrapper->field_volume->set( $node['volume'] );
   }
   
   if (!empty($node['number'])) {
-    $ewrapper->field_number->set( $node['number'] );  
+    $ewrapper->field_number->set( $node['number'] );
   }    
   
   if (!empty($node['call_number'])) {
-    $ewrapper->field_call_number->set( $node['call_number'] );  
+    $ewrapper->field_call_number->set( $node['call_number'] );
   }
   
   if (!empty($node['other_version'])) {
@@ -596,12 +690,52 @@ function create_dlts_book( $node ) {
   }
   
   $ewrapper->field_sequence_count->set( count($pages) );
+
+  $ewrapper->save();
+  
+  /** make sure book exist before creating relationship */
+
+  foreach($node['multivol'] as $multivol) {
+
+  	$multivol_nid = multivol_nid($multivol['identifier']);
+  	
+  	if ($multivol_nid) {
+  	  	
+  	  // Volume exist; find book
+  	  
+  	  $multivol_book_nid = multivol_book_nid($multivol_nid, $multivol['volume']);
+
+	  if (!$multivol_book_nid) {
+
+	  	$multivol_node = node_load($multivol_nid);
+
+        $multivol_book = array(
+	      'title' => $multivol_node->title . ' ' . t('vol.') . ' ' . $multivol['volume'],	      
+	      'identifier' => $multivol['identifier'] . '-volNumber-' . $multivol['volume'],
+	      'book' => $node['identifier'],
+	      'collections' => $node['collections'],
+	      'multivol' => $multivol['identifier'],
+	      'volume_number' => $multivol['volume'],
+	    );
+
+	    $multivol_book = create_dlts_multivol_book($multivol_book);
+
+		if ($multivol_book->nid) {
+		  drush_log('Multi Volume book relationship was created for book "@title"', array ('@title' => $node['title']), 'ok');
+		}
+
+	  }
+
+	}
+	
+	else {
+	  drush_log( t('Book "@title" is part of multi volume set "@multivol", but multi volume does not exist. Skip.', array( '@title' => $node['title'], '@multivol' => $multivol['identifier'], ) ), 'warning' );
+	}
+  }  
   
   //if (!empty($node['subjects'])) {
   //  $ewrapper->field_subject->set( $node['subjects'] );  
   //}
-  
-  $ewrapper->save(); 
   
   return $entity;
   
