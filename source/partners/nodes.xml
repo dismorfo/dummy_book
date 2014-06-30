@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<add>
+  <node>
+    <title>The Fales Library</title>
+    <status>1</status>
+    <type>dlts_partner</type>
+    <language>en</language>
+    <identifier>false</identifier>
+    <code>fales</code>
+    <name>The Fales Library</name>
+  </node>
+</add>

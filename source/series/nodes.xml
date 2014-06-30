@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<add>
+  <node>
+    <title>Series I</title>
+    <type>dlts_series</type>
+    <language>en</language>
+    <identifier>false</identifier>
+    <representative_image></representative_image>
+    <handle>http://www.example.com</handle>
+  </node>
+</add>
