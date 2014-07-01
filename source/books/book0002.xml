@@ -3,13 +3,13 @@
 
   <node>
 
-    <title>The Age of Aries</title>
-    <title_long>The Age of Aries</title_long>
-    <subtitle>An astrological age is a time period which astrologers claim parallel major changes in the development of Earth's inhabitants.</subtitle>
+    <title>Abstract art</title>
+    <title_long>Abstract art</title_long>
+    <subtitle>Abstract art uses a visual language of form, color and line to create a composition which may exist with a degree of independence from visual references in the world.</subtitle>
     <status>1</status> <!-- 0|unpublished : 1|published -->
     <language>en</language>
     <language_code>en</language_code> <!-- might not need this -->
-    <identifier>age-of-ries</identifier>
+    <identifier>abstract-art</identifier>
     <description>Some description</description>
     <scanning_notes>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.</scanning_notes>
     <dimensions>24cm x 35cm</dimensions>
@@ -27,14 +27,12 @@
     </other_versions>
       
     <isbns>
-      <isbn>0805096418</isbn>    
+      <isbn>0805096419</isbn>    
     </isbns>
     
     <isPartOf>
       <collection>movements</collection> <!-- collection identifier -->
-      <collection>ghosts</collection>
-      <multivol volume="1">multi-volume-i</multivol>
-      <multivol volume="1">multi-volume-ii</multivol>
+      <multivol volume="2">multi-volume-i</multivol>
     </isPartOf>
 
     <publishers>
@@ -42,41 +40,42 @@
     </publishers>
 
     <authors>
-      <author>Kara Procks</author>
-      <author>Francine Crago</author>
-      <author>Weldon Goh</author>
+      <author>Hubert Newton</author>
+      <author>Marta Jenkins</author>
     </authors>
 
     <contributors>
-      <contributor>Toccara Alonzo</contributor>
-      <contributor>August Willeford</contributor>      
+      <contributor>Mandy Francis</contributor>
+      <contributor>Erik Garcia</contributor>
+      <contributor>Benjamin Gomez</contributor>      
+      <contributor>Edna Wagner</contributor>            
     </contributors>
 
     <creators>
       <creator>Randy Topper</creator>
+      <creator>Jonathon Hopkins</creator>
     </creators>
 
     <editors>
-      <editor>Jaunita Marrinan</editor>
+      <editor>Ada Estrada</editor>
+      <editor>Peter Joseph</editor>
     </editors> 
 
     <subjects>
       <subject>Art and Design</subject>
-      <subject>General Studies</subject>
-      <subject>Food Studies</subject>
-      <subject>Economics and Business</subject>                  
+      <subject>Critical theory</subject>                  
     </subjects>
     
     <representative_image>
-      <uri>caspar.jpg</uri>
+      <uri>fighting.jpg</uri>
     </representative_image>    
     
     <pdf_file>
-      <uri>caspar.pdf</uri>
-    </pdf_file>   
+      <uri>fighting.pdf</uri>
+    </pdf_file>
     
     <ocr_text>
-      <uri>caspar.txt</uri>
+      <uri>fighting.txt</uri>
     </ocr_text>     
 
     <publication_date>
@@ -114,8 +113,8 @@
         -->
         <page_type>0</page_type>
                 
-        <real_page_number>1</real_page_number>
-        <sequence_number>1</sequence_number>
+        <real_page_number>2</real_page_number>
+        <sequence_number>2</sequence_number>
         
         <service_copy>
           <uri>caspar.jpg</uri>
@@ -133,14 +132,14 @@
         <title>The Fighting Temeraire</title>
         <hand_side>1</hand_side>
         <page_type>0</page_type>
-        <real_page_number>2</real_page_number>
-        <sequence_number>2</sequence_number>
+        <real_page_number>1</real_page_number>
+        <sequence_number>1</sequence_number>
         <service_copy>
           <uri>fighting.jpg</uri>
         </service_copy>
         <cropped_master>
           <uri>fighting.tif</uri>
-        </cropped_master>        
+        </cropped_master>
         <visible>1</visible>        
       </page>
       
@@ -148,8 +147,8 @@
         <title>La Mort de Sardanapale</title>
         <hand_side>1</hand_side>
         <page_type>0</page_type>
-        <real_page_number>3</real_page_number>
-        <sequence_number>3</sequence_number>
+        <real_page_number>4</real_page_number>
+        <sequence_number>4</sequence_number>
         <service_copy>
           <uri>la-mort.jpg</uri>
         </service_copy>
@@ -163,8 +162,8 @@
         <title>The Lady of Shallot</title>
         <hand_side>1</hand_side>
         <page_type>0</page_type>
-        <real_page_number>4</real_page_number>
-        <sequence_number>4</sequence_number>
+        <real_page_number>3</real_page_number>
+        <sequence_number>3</sequence_number>
         <service_copy>
           <uri>lady-shallot.jpg</uri>
         </service_copy>

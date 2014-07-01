@@ -452,7 +452,7 @@ function create_dlts_multivol_book($node) {
 	
   global $user;
   
-  $multivol_book_exist = multivol_book_nid($node['identifier']);
+  $multivol_book_exist = multivol_book_nid($node['identifier'], $node['volume_number']);
   
   if ($multivol_book_exist) {
   

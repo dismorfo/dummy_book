@@ -3,38 +3,36 @@
 
   <node>
 
-    <title>The Age of Aries</title>
-    <title_long>The Age of Aries</title_long>
-    <subtitle>An astrological age is a time period which astrologers claim parallel major changes in the development of Earth's inhabitants.</subtitle>
+    <title>Aestheticism</title>
+    <title_long>Aestheticism</title_long>
+    <subtitle>Aestheticism is an art movement supporting the emphasis of aesthetic values more than social-political themes for literature, fine art, music and other arts.[</subtitle>
     <status>1</status> <!-- 0|unpublished : 1|published -->
     <language>en</language>
     <language_code>en</language_code> <!-- might not need this -->
-    <identifier>age-of-ries</identifier>
+    <identifier>aestheticism</identifier>
     <description>Some description</description>
     <scanning_notes>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.</scanning_notes>
     <dimensions>24cm x 35cm</dimensions>
     <handle>http://www.example.com</handle>
     <number>1</number>
-    <call_number>1212</call_number>
+    <call_number>1313</call_number>
     <read_order>0</read_order>
     <scan_order>0</scan_order>
     <binding_orientation>1</binding_orientation>
     <page_count>5</page_count>    
-    <volume>1</volume>
+    <volume>3</volume>
   
     <other_versions>
       <other_version>http://www.example.com</other_version>
     </other_versions>
       
     <isbns>
-      <isbn>0805096418</isbn>    
+      <isbn>0805096421</isbn>    
     </isbns>
     
     <isPartOf>
       <collection>movements</collection> <!-- collection identifier -->
-      <collection>ghosts</collection>
-      <multivol volume="1">multi-volume-i</multivol>
-      <multivol volume="1">multi-volume-ii</multivol>
+      <multivol volume="4">multi-volume-i</multivol>
     </isPartOf>
 
     <publishers>
@@ -42,14 +40,11 @@
     </publishers>
 
     <authors>
-      <author>Kara Procks</author>
-      <author>Francine Crago</author>
-      <author>Weldon Goh</author>
+      <author>Hubert Newton</author>
     </authors>
 
-    <contributors>
-      <contributor>Toccara Alonzo</contributor>
-      <contributor>August Willeford</contributor>      
+    <contributors>      
+      <contributor>Edna Wagner</contributor>            
     </contributors>
 
     <creators>
@@ -57,26 +52,23 @@
     </creators>
 
     <editors>
-      <editor>Jaunita Marrinan</editor>
+      <editor>Peter Joseph</editor>
     </editors> 
 
     <subjects>
-      <subject>Art and Design</subject>
-      <subject>General Studies</subject>
-      <subject>Food Studies</subject>
-      <subject>Economics and Business</subject>                  
+      <subject>Art and Design</subject>               
     </subjects>
     
     <representative_image>
-      <uri>caspar.jpg</uri>
+      <uri>le-poeme.jpg</uri>
     </representative_image>    
     
     <pdf_file>
-      <uri>caspar.pdf</uri>
-    </pdf_file>   
+      <uri>le-poeme.pdf</uri>
+    </pdf_file>
     
     <ocr_text>
-      <uri>caspar.txt</uri>
+      <uri>le-poeme.txt</uri>
     </ocr_text>     
 
     <publication_date>
@@ -114,8 +106,8 @@
         -->
         <page_type>0</page_type>
                 
-        <real_page_number>1</real_page_number>
-        <sequence_number>1</sequence_number>
+        <real_page_number>2</real_page_number>
+        <sequence_number>2</sequence_number>
         
         <service_copy>
           <uri>caspar.jpg</uri>
@@ -133,8 +125,8 @@
         <title>The Fighting Temeraire</title>
         <hand_side>1</hand_side>
         <page_type>0</page_type>
-        <real_page_number>2</real_page_number>
-        <sequence_number>2</sequence_number>
+        <real_page_number>3</real_page_number>
+        <sequence_number>3</sequence_number>
         <service_copy>
           <uri>fighting.jpg</uri>
         </service_copy>
@@ -148,8 +140,8 @@
         <title>La Mort de Sardanapale</title>
         <hand_side>1</hand_side>
         <page_type>0</page_type>
-        <real_page_number>3</real_page_number>
-        <sequence_number>3</sequence_number>
+        <real_page_number>4</real_page_number>
+        <sequence_number>4</sequence_number>
         <service_copy>
           <uri>la-mort.jpg</uri>
         </service_copy>
@@ -163,8 +155,8 @@
         <title>The Lady of Shallot</title>
         <hand_side>1</hand_side>
         <page_type>0</page_type>
-        <real_page_number>4</real_page_number>
-        <sequence_number>4</sequence_number>
+        <real_page_number>5</real_page_number>
+        <sequence_number>5</sequence_number>
         <service_copy>
           <uri>lady-shallot.jpg</uri>
         </service_copy>
@@ -178,8 +170,8 @@
         <title>The Poem of the Soul</title>
         <hand_side>1</hand_side>
         <page_type>0</page_type>
-        <real_page_number>5</real_page_number>
-        <sequence_number>5</sequence_number>
+        <real_page_number>1</real_page_number>
+        <sequence_number>1</sequence_number>
         <service_copy>
           <uri>le-poeme.jpg</uri>
         </service_copy>
