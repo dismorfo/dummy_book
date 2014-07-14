@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<add>
+
+  <node>
+
+    <title>Fauvism</title>
+    <title_long>Fauvism</title_long>
+    <subtitle>Fauvism is the style of les Fauves.</subtitle>
+    <status>1</status> <!-- 0|unpublished : 1|published -->
+    <language>en</language>
+    <language_code>en</language_code> <!-- might not need this -->
+    <identifier>fauvism</identifier>
+    <description>Some description</description>
+    <scanning_notes>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.</scanning_notes>
+    <dimensions>24cm x 35cm</dimensions>
+    <handle>http://www.example.com</handle>
+    <number>1</number>
+    <call_number>1212</call_number>
+    <read_order>1</read_order>
+    <scan_order>0</scan_order>
+    <binding_orientation>1</binding_orientation>
+    <page_count>5</page_count>    
+    <volume>1</volume>
+  
+    <other_versions>
+      <other_version>http://www.example.com</other_version>
+    </other_versions>
+      
+    <isbns>
+      <isbn>1805096418</isbn>    
+    </isbns>
+    
+    <isPartOf>
+      <collection>movements</collection>
+      <multivol volume="1">multi-volume-ii</multivol>
+    </isPartOf>
+
+    <publishers>
+      <publisher>New York University</publisher>
+    </publishers>
+
+    <authors>
+      <author>Kara Procks</author>
+      <author>Francine Crago</author>
+      <author>Weldon Goh</author>
+    </authors>
+
+    <contributors>
+      <contributor>Toccara Alonzo</contributor>
+      <contributor>August Willeford</contributor>      
+    </contributors>
+
+    <creators>
+      <creator>Randy Topper</creator>
+    </creators>
+
+    <editors>
+      <editor>Jaunita Marrinan</editor>
+    </editors> 
+
+    <subjects>
+      <subject>Art and Design</subject>
+      <subject>General Studies</subject>
+      <subject>Food Studies</subject>
+      <subject>Economics and Business</subject>                  
+    </subjects>
+    
+    <representative_image>
+      <uri>girodet.jpg</uri>
+    </representative_image>    
+    
+    <pdf_file>
+      <uri>girodet.pdf</uri>
+    </pdf_file>   
+    
+    <ocr_text>
+      <uri>girodet.txt</uri>
+    </ocr_text>     
+
+    <publication_date>
+      <value>2013-10-01T00:00:00</value>
+      <value2>2013-10-01T00:00:00</value2>
+    </publication_date>
+
+    <scan_date>
+      <value>2013-10-30T00:00:00</value>
+    </scan_date>
+
+    <pages>
+    
+      <page>
+      
+        <title>Ossian Receiving the Ghosts of Fallen French Heroes</title>
+        <hand_side>1</hand_side>
+        <page_type>0</page_type>
+        <real_page_number>1</real_page_number>
+        <sequence_number>1</sequence_number>
+        <service_copy>
+          <uri>girodet.jpg</uri>
+        </service_copy>
+        <cropped_master>
+          <uri>girodet.tif</uri>
+        </cropped_master>        
+        <visible>1</visible>
+      </page>
+      
+      <page>
+        <title>Crusaders Thirsting near Jerusalem</title>
+        <hand_side>1</hand_side>
+        <page_type>0</page_type>
+        <real_page_number>2</real_page_number>
+        <sequence_number>2</sequence_number>
+        <service_copy>
+          <uri>jerusalem.jpg</uri>
+        </service_copy>
+        <cropped_master>
+          <uri>jerusalem.tif</uri>
+        </cropped_master>        
+        <visible>1</visible>        
+      </page>
+      
+      <page>
+        <title>Liberty Leading the People</title>
+        <hand_side>1</hand_side>
+        <page_type>0</page_type>
+        <real_page_number>3</real_page_number>
+        <sequence_number>3</sequence_number>
+        <service_copy>
+          <uri>peuple.jpg</uri>
+        </service_copy>
+        <cropped_master>
+          <uri>peuple.tif</uri>
+        </cropped_master>        
+        <visible>1</visible>        
+      </page>         
+
+      <page>
+        <title>The Savage State</title>
+        <hand_side>1</hand_side>
+        <page_type>0</page_type>
+        <real_page_number>4</real_page_number>
+        <sequence_number>4</sequence_number>
+        <service_copy>
+          <uri>savage.jpg</uri>
+        </service_copy>
+        <cropped_master>
+          <uri>savage.tif</uri>
+        </cropped_master>
+        <visible>1</visible>        
+      </page>
+
+      <page>
+        <title>Eruption of Vesuvius</title>
+        <hand_side>1</hand_side>
+        <page_type>0</page_type>
+        <real_page_number>5</real_page_number>
+        <sequence_number>5</sequence_number>
+        <service_copy>
+          <uri>vesuv.jpg</uri>
+        </service_copy>
+        <cropped_master>
+          <uri>vesuv.tif</uri>
+        </cropped_master>        
+        <visible>1</visible>        
+      </page>
+      
+    </pages>    
+  </node>
+  
+</add>

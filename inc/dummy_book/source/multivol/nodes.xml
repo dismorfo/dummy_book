@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<add>
+
+  <node>
+    <title>Multi Volume I</title>
+    <identifier>multi-volume-i</identifier>
+    <representative_image></representative_image>
+    <handle>http://www.example.com</handle>
+  </node>
+
+  <node>
+    <title>Multi Volume II</title>
+    <identifier>multi-volume-ii</identifier>
+    <representative_image></representative_image>
+    <handle>http://www.example.com</handle>
+  </node>
+
+</add>
