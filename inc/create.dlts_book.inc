@@ -269,7 +269,8 @@ function create_dlts_book($books) {
       
       $representative_image_source = (string) $child->representative_image->uri;
       
-      $representative_image = add_file( '/Users/ortiz/tools/sites/books/sites/all/dummy_book/inc/dummy_book/source/images/' . $representative_image_source);
+      // for now; fix this
+      $representative_image = add_file( '/home/dlib/ortiz/dummy_book/inc/dummy_book/source/images/' . $representative_image_source);
       
       $node = array(
         'title' => $book_title,
@@ -325,9 +326,9 @@ function create_dlts_book($books) {
 
           $service_copy_filename = $book_page['service_copy']['uri'];
           
-          $cropped_master = add_file('/Users/ortiz/tools/sites/books/sites/all/dummy_book/inc/dummy_book/source/images/' . $cropped_master_filename);
+          $cropped_master = add_file('/home/dlib/ortiz/dummy_book/inc/dummy_book/source/images/' . $cropped_master_filename);
 
-          $service_copy = add_file('/Users/ortiz/tools/sites/books/sites/all/dummy_book/inc/dummy_book/source/images/' . $service_copy_filename);
+          $service_copy = add_file('/home/dlib/ortiz/dummy_book/inc/dummy_book/source/images/' . $service_copy_filename);
 
           $title = (isset($book_page['title'])) ? $book_page['title'] : $book_title . ' ' . t('page @number', array('@number' => $book_page['sequence_number']));
 
