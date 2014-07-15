@@ -141,7 +141,7 @@ function create_dummy_book() {
   create_dummy_multi_volume();
   
   fix();
-
+  
   create_dlts_book(
     file_scan_directory( __DIR__ . '/dummy_book/source/books', '/(.*)\.xml$/', array('recurse' => FALSE ))
   );
