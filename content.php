@@ -2,7 +2,7 @@
 
 /**
  * A command-line Drupal script to create a dummy book
- * drush -r --user=1 --uri=http://localhost/book_test scr content.php
+ * drush --user=1 --uri=http://localhost/book_test scr content.php
  */
  
 function show_help(array $commands = array()) {
@@ -49,7 +49,7 @@ function run ($task, array $commands = array()) {
 
 function init ( array $options = array() ) {
 
-  ini_set('memory_limit', '512MM');
+  ini_set('memory_limit', '1024M');
 
   include_once('inc/common.inc');
 

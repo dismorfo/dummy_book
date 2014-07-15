@@ -38,7 +38,7 @@ function create_dlts_book_page( $node ) {
     // Now create an entity_metadata_wrapper around the new node entity
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
-  
+
   }
   
   $ewrapper->title->set( $node['title'] );

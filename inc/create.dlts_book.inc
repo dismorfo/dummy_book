@@ -127,15 +127,15 @@ function save_dlts_book( $node ) {
   }
 
   if (!empty($node['volume'])) {
-    $ewrapper->field_volume->set( $node['volume'] );  
+    $ewrapper->field_volume->set( $node['volume'] ); 
   }
   
   if (!empty($node['number'])) {
-    $ewrapper->field_number->set( $node['number'] );  
+    $ewrapper->field_number->set( $node['number'] );
   }    
   
   if (!empty($node['call_number'])) {
-    $ewrapper->field_call_number->set( $node['call_number'] );  
+    $ewrapper->field_call_number->set( $node['call_number'] );
   }
   
   if (!empty($node['other_version'])) {
@@ -154,14 +154,51 @@ function save_dlts_book( $node ) {
     $ewrapper->field_read_order->set( $node['read_order'] );
   }
   
+  if (!empty($node['publication_location'])) {  
+    $ewrapper->field_publication_location->set( $node['publication_location'] );
+  }  
+  
   if (!empty($node['publisher'])) {
-    $ewrapper->field_publisher->set( $node['publisher'] );  
+    $ewrapper->field_publisher->set( $node['publisher'] );
   }
+  
+  if (!empty($node['publication_date_text'])) {
+    $ewrapper->field_publication_date_text->set( $node['publication_date_text'] );
+  }  
   
   if (!empty($node['representative_image'])) {
     $ewrapper->field_representative_image ->set( array('fid' => $node['representative_image']->fid ) ); 
   }
-  
+
+  if (!empty($node['language_code'])) {
+    $ewrapper->field_language_code ->set( array( $node['language_code'] ) ); 
+  }  
+
+  if (!empty($node['language_code'])) {
+    $ewrapper->field_language_code ->set( array( $node['language_code'] ) ); 
+  }  
+
+  if (!empty($node['language'])) {
+    $ewrapper->field_language ->set( array( $node['language'] ) ); 
+  }
+
+  if (!empty($node['pdf_files'])) {
+	$pdf_files = array();
+    foreach ($node['pdf_files'] as $file) {
+
+      // send FALSE overwrite while developing
+      $content = import_add_file($file, FALSE);
+		
+	  if (isset($content) && isset($content->fid )) {
+	    $pdf_files[] = array('fid' => $content->fid, 'display' => 0 );
+	  }
+
+    }
+	
+    $ewrapper->field_pdf_file->set( $pdf_files );
+
+  }
+
   $ewrapper->field_sequence_count->set( count($pages) );
   
   //if (!empty($node['subjects'])) {
@@ -194,6 +231,7 @@ function create_dlts_book($books) {
         $creators =
         $editors =
         $publishers =
+        $pdf_files =
         $subjects = array();
 
       /** book pages */
@@ -201,77 +239,104 @@ function create_dlts_book($books) {
 
         $page = (array) $page;
 
-        $page['service_copy'] = (array) $page['service_copy'];
+        $page['service'] = (array) $page['service'];
 
-        $page['cropped_master'] = (array) $page['cropped_master'];
+        $page['image'] = (array) $page['image'];
 
         $pages_array[] = (array) $page;
 
       }
-    
+      
       /** contributors */ 
-      foreach ($child->contributors->children() as $contributor) {
-        $contributors[] = (string) $contributor[0];
+      if ($child->contributors) {
+        foreach ($child->contributors->children() as $contributor) {
+          $contributors[] = (string) $contributor[0];
+        }
       }
 
       /** authors */    
-      foreach ($child->authors->children() as $author) {
-        $authors[] = (string) $author[0];
+      if ($child->authors) {      
+        foreach ($child->authors->children() as $author) {
+          $authors[] = (string) $author[0];
+        }
       }
 
       /** collections the book belong */
-      foreach ($child->isPartOf->collection as $collection) {
-        $collections[] = (string) $collection[0];
+      if ($child->isPartOf->collection) {
+        foreach ($child->isPartOf->collection as $collection) {
+          $collections[] = (string) $collection[0];
+        }
       }
-	  
-	  foreach ($child->isPartOf->multivol as $multivol) {
-        $multivols[] = array(
-          'identifier' => (string) $multivol[0],
-          'volume' => (int) $multivol->attributes()->volume[0], 
-		);
+      
+      if ($child->isPartOf->multivol) {
+        foreach ($child->isPartOf->multivol as $multivol) {
+          $multivols[] = array(
+            'identifier' => (string) $multivol[0],
+            'volume' => (int) $multivol->attributes()->volume[0], 
+          );
+	    }
 	  }
 
       /** creators */
-      foreach ($child->creators->children() as $creator) {
-        $creators[] = (string) $creator[0];
-      }      
+      if ($child->creators) {
+        foreach ($child->creators->children() as $creator) {
+          $creators[] = (string) $creator[0];
+        }      
+      }
       
       /** editor */
-      foreach ($child->editors->children() as $editor) {
-        $editors[] = (string) $editor[0];
-      }     
+      if ($child->editors) {
+        foreach ($child->editors->children() as $editor) {
+          $editors[] = (string) $editor[0];
+        }     
+      }
 
       /** publishers */
-      foreach ($child->publishers->children() as $publisher) {
-        $publishers[] = (string) $publisher[0];
-      }     
+      if ($child->publishers) {
+        foreach ($child->publishers->children() as $publisher) {
+          $publishers[] = (string) $publisher[0];
+        }     
+      }
       
       /** subjects */
-      foreach ($child->subjects->children() as $subject) {
-        $subjects[] = (string) $subject[0];
-      }     
+      if ($child->subjects) {
+        foreach ($child->subjects->children() as $subject) {
+          $subjects[] = (string) $subject[0];
+        }
+      }
 
       /** isbns */
-      foreach ($child->isbns->children() as $isbn) {
-        $isbns[] = (string) $isbn[0];
-      }     
+      if ($child->isbns) {
+        foreach ($child->isbns->children() as $isbn) {
+          $isbns[] = (string) $isbn[0];
+        }     
+      }
       
       /** other_versions */
-      foreach ($child->other_versions->children() as $other_version) {
-        $other_versions[] = array(
-          'url' => (string) $other_version[0]
-        );
-      }           
+      if ($child->other_versions) {
+        foreach ($child->other_versions->children() as $other_version) {
+          $other_versions[] = array(
+            'url' => (string) $other_version[0]
+          );
+        }           
+      }
+
+      /** pdfs  */
+      if ($child->pdf_files) {
+        foreach ($child->pdf_files->children() as $pdf_file) {
+          $pdf_files[] = (string) $pdf_file[0];
+        }
+      }	  
 
       $book_identifier = (string)$child->identifier[0];
-      
+
       $book_title = (string)$child->title[0];
+
+      $representative_image_source = (string) $child->representative_image[0];
       
-      $representative_image_source = (string) $child->representative_image->uri;
-      
-      // for now; fix this
-      $representative_image = add_file( '/home/dlib/ortiz/dummy_book/inc/dummy_book/source/images/' . $representative_image_source);
-      
+      // send FALSE overwrite while developing
+      $representative_image = import_add_file($representative_image_source, FALSE);
+
       $node = array(
         'title' => $book_title,
         'title_long' => (string)$child->title_long[0],        
@@ -291,11 +356,12 @@ function create_dlts_book($books) {
         'other_version' => $other_versions,
         'read_order' => (int)$child->read_order[0],
         'representative_image' => $representative_image,
-        'pdf_file' => (string)$child->pdf_file[0],
         'scan_order' => (int)$child->scan_order[0],
         'scanning_notes' => (string)$child->scanning_notes[0],
         'volume' => (string)$child->volume[0],
         'publication_date' => (string)$child->publication_date[0],
+        'publication_location' => (string)$child->publication_location[0],
+        'publication_date_text' => (string)$child->publication_date_text[0],
         'scan_date' => (string)$child->scan_date[0],
         'isbn' => $isbns,
         'identifier' => $book_identifier,
@@ -307,12 +373,13 @@ function create_dlts_book($books) {
         'editor' => $editors,
         'publisher' => $publishers,
         'subjects' => $subjects,
+        'pdf_files' => $pdf_files,
         'pages' => $pages_array,
         'multivol' => $multivols,        
       );
-      
+
       $created = save_dlts_book($node);
-      
+
       if (
         $created && 
         isset($created->nid)
@@ -322,13 +389,15 @@ function create_dlts_book($books) {
 
         foreach($pages_array as $key => $book_page) {
 
-          $cropped_master_filename = $book_page['cropped_master']['uri'];
+          $cropped_master_filename = $book_page['image'][0];
 
-          $service_copy_filename = $book_page['service_copy']['uri'];
+          $service_copy_filename = $book_page['service'][0];
           
-          $cropped_master = add_file('/home/dlib/ortiz/dummy_book/inc/dummy_book/source/images/' . $cropped_master_filename);
-
-          $service_copy = add_file('/home/dlib/ortiz/dummy_book/inc/dummy_book/source/images/' . $service_copy_filename);
+          // send FALSE overwrite while developing
+          $cropped_master = import_add_file($cropped_master_filename, FALSE);
+          
+		  // send FALSE overwrite while developing
+          $service_copy = import_add_file($service_copy_filename, FALSE);
 
           $title = (isset($book_page['title'])) ? $book_page['title'] : $book_title . ' ' . t('page @number', array('@number' => $book_page['sequence_number']));
 
@@ -340,8 +409,8 @@ function create_dlts_book($books) {
             'title' => $title,
             'hand_side' => $book_page['hand_side'],
             'page_type' => $book_page['page_type'],
-            'real_page_number' => $book_page['real_page_number'],
-            'sequence_number' => $book_page['sequence_number'],
+            'real_page_number' => $book_page['page'],
+            'sequence_number' => $book_page['sequence'],
             'visible' => $page['visible'],
             'cropped_master' => $cropped_master,  
             'service_copy' => $service_copy,          
