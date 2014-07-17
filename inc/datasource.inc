@@ -74,6 +74,24 @@ function book_page_nid($book_nid, $sequence_number) {
 
 }
 
+function partner_nid($identifier) {
+
+  $query = new EntityFieldQuery;
+
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'dlts_partner')
+    ->fieldCondition('field_identifier', 'value', $identifier, '=')
+    ->execute();
+    
+  if (empty($result['node'])) return FALSE;
+
+  $keys = array_keys($result['node']);
+
+  return (int)$keys[0];
+
+}
+
 function book_nid($identifier) {
 
   $query = new EntityFieldQuery;

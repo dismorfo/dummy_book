@@ -185,25 +185,42 @@ function save_dlts_book( $node ) {
   if (!empty($node['pdf_files'])) {
 	$pdf_files = array();
     foreach ($node['pdf_files'] as $file) {
-
       // send FALSE overwrite while developing
       $content = import_add_file($file, FALSE);
-		
 	  if (isset($content) && isset($content->fid )) {
 	    $pdf_files[] = array('fid' => $content->fid, 'display' => 0 );
 	  }
-
     }
-	
     $ewrapper->field_pdf_file->set( $pdf_files );
-
   }
 
   $ewrapper->field_sequence_count->set( count($pages) );
   
-  //if (!empty($node['subjects'])) {
-  //  $ewrapper->field_subject->set( $node['subjects'] );  
-  //}
+  if (!empty($node['subjects'])) {
+  
+    $vocabulary = taxonomy_vocabulary_machine_name_load('subjects');
+    
+    $subjects = array();
+  
+    foreach($node['subjects'] as $subject) {
+      
+      $term = taxonomy_get_term_by_name($subject);
+      
+      if ($term) {
+        $subjects = array_merge($subjects, array_keys($term));
+      }
+      
+      else {
+      
+        $term = custom_create_taxonomy_term($subject, $vocabulary->vid);
+        $subjects = array_merge($subjects, array_keys($term));        
+
+      }
+      
+      $ewrapper->field_subject->set( $subjects );  
+      
+    }
+  }
   
   $ewrapper->save(); 
   
@@ -220,6 +237,8 @@ function create_dlts_book($books) {
     if (!$xml) drush_log( t('File @file not found', array('@file' => $value->uri)), 'error');
 
     foreach ($xml->node as $child) {
+      
+      $metadata = $child->metadata;
       
       $pages_array =
         $multivols =
@@ -248,28 +267,28 @@ function create_dlts_book($books) {
       }
       
       /** contributors */ 
-      if ($child->contributors) {
-        foreach ($child->contributors->children() as $contributor) {
+      if ($metadata->contributors) {
+        foreach ($metadata->contributors->children() as $contributor) {
           $contributors[] = (string) $contributor[0];
         }
       }
 
       /** authors */    
-      if ($child->authors) {      
-        foreach ($child->authors->children() as $author) {
+      if ($metadata->authors) {      
+        foreach ($metadata->authors->children() as $author) {
           $authors[] = (string) $author[0];
         }
       }
 
       /** collections the book belong */
-      if ($child->isPartOf->collection) {
-        foreach ($child->isPartOf->collection as $collection) {
+      if ($metadata->isPartOf->collection) {
+        foreach ($metadata->isPartOf->collection as $collection) {
           $collections[] = (string) $collection[0];
         }
       }
       
-      if ($child->isPartOf->multivol) {
-        foreach ($child->isPartOf->multivol as $multivol) {
+      if ($metadata->isPartOf->multivol) {
+        foreach ($metadata->isPartOf->multivol as $multivol) {
           $multivols[] = array(
             'identifier' => (string) $multivol[0],
             'volume' => (int) $multivol->attributes()->volume[0], 
@@ -278,43 +297,43 @@ function create_dlts_book($books) {
 	  }
 
       /** creators */
-      if ($child->creators) {
-        foreach ($child->creators->children() as $creator) {
+      if ($metadata->creators) {
+        foreach ($metadata->creators->children() as $creator) {
           $creators[] = (string) $creator[0];
         }      
       }
       
       /** editor */
-      if ($child->editors) {
-        foreach ($child->editors->children() as $editor) {
+      if ($metadata->editors) {
+        foreach ($metadata->editors->children() as $editor) {
           $editors[] = (string) $editor[0];
         }     
       }
 
       /** publishers */
-      if ($child->publishers) {
-        foreach ($child->publishers->children() as $publisher) {
+      if ($metadata->publishers) {
+        foreach ($metadata->publishers->children() as $publisher) {
           $publishers[] = (string) $publisher[0];
         }     
       }
       
       /** subjects */
-      if ($child->subjects) {
-        foreach ($child->subjects->children() as $subject) {
+      if ($metadata->subjects) {
+        foreach ($metadata->subjects->children() as $subject) {
           $subjects[] = (string) $subject[0];
         }
       }
 
       /** isbns */
-      if ($child->isbns) {
-        foreach ($child->isbns->children() as $isbn) {
+      if ($metadata->isbns) {
+        foreach ($metadata->isbns->children() as $isbn) {
           $isbns[] = (string) $isbn[0];
         }     
       }
       
       /** other_versions */
-      if ($child->other_versions) {
-        foreach ($child->other_versions->children() as $other_version) {
+      if ($metadata->other_versions) {
+        foreach ($metadata->other_versions->children() as $other_version) {
           $other_versions[] = array(
             'url' => (string) $other_version[0]
           );
@@ -322,47 +341,47 @@ function create_dlts_book($books) {
       }
 
       /** pdfs  */
-      if ($child->pdf_files) {
-        foreach ($child->pdf_files->children() as $pdf_file) {
+      if ($metadata->pdf_files) {
+        foreach ($metadata->pdf_files->children() as $pdf_file) {
           $pdf_files[] = (string) $pdf_file[0];
         }
       }	  
 
-      $book_identifier = (string)$child->identifier[0];
+      $book_identifier = (string)$metadata->identifier[0];
 
       $book_title = (string)$child->title[0];
 
-      $representative_image_source = (string) $child->representative_image[0];
-      
+      $representative_image_source = (string) $metadata->representative_image[0];
+
       // send FALSE overwrite while developing
       $representative_image = import_add_file($representative_image_source, FALSE);
 
       $node = array(
         'title' => $book_title,
-        'title_long' => (string)$child->title_long[0],        
-        'status' => (string) $child->status[0],
+        'title_long' => (string)$metadata->title_long[0],        
+        'status' => (string) $metadata->status[0],
         'language' => (string) $child->language[0],
-        'identifier' => (string) $child->identifier[0],
-        'subtitle' => (string) $child->subtitle[0],
-        'page_count' => (int) $child->page_count[0],
-        'binding_orientation' => (int)$child->binding_orientation[0],
-        'call_number' => (string)$child->call_number[0],
-        'description' => (string)$child->description[0],
-        'dimensions' => (string)$child->dimensions[0],
-        'handle' => (string) $child->handle[0],
-        'language' => (string)$child->language[0],
-        'language_code' => (string)$child->language_code[0],
-        'number' => (string)$child->number[0],
+        'identifier' => (string) $metadata->identifier[0],
+        'subtitle' => (string) $metadata->subtitle[0],
+        'page_count' => (int) $metadata->page_count[0],
+        'binding_orientation' => (int)$metadata->binding_orientation[0],
+        'call_number' => (string)$metadata->call_number[0],
+        'description' => (string)$metadata->description[0],
+        'dimensions' => (string)$metadata->dimensions[0],
+        'handle' => (string) $metadata->handle[0],
+        'language' => (string)$metadata->language[0],
+        'language_code' => (string)$metadata->language_code[0],
+        'number' => (string)$metadata->number[0],
         'other_version' => $other_versions,
-        'read_order' => (int)$child->read_order[0],
+        'read_order' => (int)$metadata->read_order[0],
         'representative_image' => $representative_image,
-        'scan_order' => (int)$child->scan_order[0],
-        'scanning_notes' => (string)$child->scanning_notes[0],
-        'volume' => (string)$child->volume[0],
-        'publication_date' => (string)$child->publication_date[0],
-        'publication_location' => (string)$child->publication_location[0],
-        'publication_date_text' => (string)$child->publication_date_text[0],
-        'scan_date' => (string)$child->scan_date[0],
+        'scan_order' => (int)$metadata->scan_order[0],
+        'scanning_notes' => (string)$metadata->scanning_notes[0],
+        'volume' => (string)$metadata->volume[0],
+        'publication_date' => (string)$metadata->publication_date[0],
+        'publication_location' => (string)$metadata->publication_location[0],
+        'publication_date_text' => (string)$metadata->publication_date_text[0],
+        'scan_date' => (string)$metadata->scan_date[0],
         'isbn' => $isbns,
         'identifier' => $book_identifier,
         'collections' => $collections,
@@ -377,8 +396,10 @@ function create_dlts_book($books) {
         'pages' => $pages_array,
         'multivol' => $multivols,        
       );
-
+      
       $created = save_dlts_book($node);
+      
+      $created = FALSE;
 
       if (
         $created && 

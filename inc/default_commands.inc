@@ -35,13 +35,10 @@ function fix() {
 
       $node = array(
         'title' => (string)$child->title[0],
-        'status' => (string)$child->status[0],
-        'type' => 'dlts_collection',
-        'language' => (string)$child->language[0],
         'identifier' => (string)$child->identifier[0],
         'code' => (string)$child->code[0],
         'partner' => (string)$child->partner[0],
-        'name' => (string)$child->name[0],        
+        'name' => (string)$child->name[0],
       );
   
       create_dlts_collection( $node );

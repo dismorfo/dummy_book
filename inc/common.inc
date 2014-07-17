@@ -1,6 +1,18 @@
 <?php
 
- function import_get_content($URL) {
+/**
+ * Create a taxonomy term and return the tid.
+ */
+function custom_create_taxonomy_term($name, $vid, $parent_id = 0) {
+  $term = new stdClass();
+  $term->name = $name;
+  $term->vid = $vid;
+  $term->parent = array($parent_id);
+  taxonomy_term_save($term);
+  return $term->tid;
+}
+
+function import_get_content($URL) {
    
    drush_log( t('Requesting external content @url', array('@url' => $URL) ), 'ok') ;
 

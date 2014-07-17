@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <add>
+
   <node>
     <title>The Fales Library</title>
-    <status>1</status>
-    <type>dlts_partner</type>
-    <language>en</language>
+    <name>The Fales Library</name>
     <identifier>false</identifier>
     <code>fales</code>
-    <name>The Fales Library</name>
   </node>
+
+  <node>
+    <title>NYU Digital Library Technology Services</title>
+    <name>NYU Digital Library Technology Services</name>
+    <identifier>dlts</identifier>
+    <code>dlts</code>
+  </node>
+
 </add>

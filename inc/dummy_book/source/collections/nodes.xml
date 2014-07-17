@@ -3,24 +3,26 @@
   
   <node>
     <title>Periods</title>
-    <status>1</status>
-    <type>dlts_collection</type>
-    <language>en</language>
+    <name>Periods</name>
     <identifier>periods</identifier>
-    <code>1</code>
-    <partner>4</partner>
-    <name>aortiz</name>
+    <partner>dlts</partner>
+    <code>dlts</code>
   </node>
   
   <node>
+    <title>The Liberator</title>
+    <name>The Liberator</name>
+    <identifier>94b17163-75c2-42c4-b258-754e9fc9e0ea</identifier>
+    <partner>fales</partner>
+    <code>fales</code>
+  </node>  
+  
+  <node>
     <title>Movements</title>
-    <status>1</status>
-    <type>dlts_collection</type>
-    <language>en</language>
+    <name>Movements</name>
     <identifier>movements</identifier>
-    <code>1</code>
-    <partner>4</partner>
-    <name>aortiz</name>
+    <partner>dlts</partner>
+    <code>dlts</code>
   </node>
     
 </add>
