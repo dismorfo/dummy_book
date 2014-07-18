@@ -52,9 +52,7 @@ function create_dlts_multivol_book($node) {
 	    drush_log( t('Multi Volume Book "@title" is part of collection "@collection", but collection does not exist. Skip.', array( '@title' => $node['title'], '@collection' => $collection, ) ), 'warning' );
 	  }
     }
-
 	$ewrapper->field_collection->set( $collections_nids );
-
   }
   
   if ($node['identifier']) {

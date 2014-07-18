@@ -139,7 +139,7 @@ function create_dummy_book() {
   
   fix();
   
-  create_dlts_book(
+  create_dlts_book_from_xml(
     file_scan_directory( __DIR__ . '/dummy_book/source/books', '/(.*)\.xml$/', array('recurse' => FALSE ))
   );
 

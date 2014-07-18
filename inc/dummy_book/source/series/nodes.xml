@@ -2,9 +2,7 @@
 <add>
   <node>
     <title>Series I</title>
-    <type>dlts_series</type>
-    <language>en</language>
-    <identifier>false</identifier>
+    <identifier>series-i</identifier>
     <representative_image></representative_image>
     <handle>http://www.example.com</handle>
   </node>

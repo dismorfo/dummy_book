@@ -63,10 +63,12 @@ function save_dlts_book( $node ) {
     }
   }
 
+  /**
+   * this need to be fix
+   */
   $multivol_nids[] = array();
   
   foreach($node['multivol'] as $multivol) {
-    drush_log($multivol['identifier'], 'ok');
     $nid = multivol_nid($multivol['identifier']);
     if ($nid) {
       $multivol_nids[] = $nid;
@@ -74,7 +76,7 @@ function save_dlts_book( $node ) {
     else {
       drush_log( t('Book "@title" is part of multi volume set "@multivol", but multi volume does not exist. Skip.', array( '@title' => $node['title'], '@multivol' => $multivol['identifier'], ) ), 'warning' );
     }
-  }  
+  }
   
   $ewrapper->field_collection->set( $collections_nids );
   
@@ -167,7 +169,11 @@ function save_dlts_book( $node ) {
   }  
   
   if (!empty($node['representative_image'])) {
-    $ewrapper->field_representative_image ->set( array('fid' => $node['representative_image']->fid ) ); 
+    // send FALSE overwrite while developing
+    $representative_image = import_add_file($node['representative_image'], FALSE);
+    if ($representative_image) {
+      $ewrapper->field_representative_image ->set(array('fid' => $representative_image->fid )); 
+    }
   }
 
   if (!empty($node['language_code'])) {
@@ -197,28 +203,18 @@ function save_dlts_book( $node ) {
   $ewrapper->field_sequence_count->set( count($pages) );
   
   if (!empty($node['subjects'])) {
-  
     $vocabulary = taxonomy_vocabulary_machine_name_load('subjects');
-    
     $subjects = array();
-  
     foreach($node['subjects'] as $subject) {
-      
       $term = taxonomy_get_term_by_name($subject);
-      
       if ($term) {
         $subjects = array_merge($subjects, array_keys($term));
       }
-      
       else {
-      
-        $term = custom_create_taxonomy_term($subject, $vocabulary->vid);
+        $term = create_taxonomy_term($subject, $vocabulary->vid);
         $subjects = array_merge($subjects, array_keys($term));        
-
       }
-      
-      $ewrapper->field_subject->set( $subjects );  
-      
+      $ewrapper->field_subject->set($subjects);
     }
   }
   
@@ -228,7 +224,7 @@ function save_dlts_book( $node ) {
   
 }
 
-function create_dlts_book($books) {
+function create_dlts_book_from_xml($books) {
 	
   foreach ($books as $value) {
       
@@ -347,21 +343,17 @@ function create_dlts_book($books) {
         }
       }	  
 
+      $book_title = (string)$child->title[0];
+      
       $book_identifier = (string)$metadata->identifier[0];
 
-      $book_title = (string)$child->title[0];
-
-      $representative_image_source = (string) $metadata->representative_image[0];
-
-      // send FALSE overwrite while developing
-      $representative_image = import_add_file($representative_image_source, FALSE);
+      // $book_title = $book_identifier = (string)uniqid();            
 
       $node = array(
         'title' => $book_title,
         'title_long' => (string)$metadata->title_long[0],        
         'status' => (string) $metadata->status[0],
         'language' => (string) $child->language[0],
-        'identifier' => (string) $metadata->identifier[0],
         'subtitle' => (string) $metadata->subtitle[0],
         'page_count' => (int) $metadata->page_count[0],
         'binding_orientation' => (int)$metadata->binding_orientation[0],
@@ -374,7 +366,7 @@ function create_dlts_book($books) {
         'number' => (string)$metadata->number[0],
         'other_version' => $other_versions,
         'read_order' => (int)$metadata->read_order[0],
-        'representative_image' => $representative_image,
+        'representative_image' => (string) $metadata->representative_image[0],
         'scan_order' => (int)$metadata->scan_order[0],
         'scanning_notes' => (string)$metadata->scanning_notes[0],
         'volume' => (string)$metadata->volume[0],
@@ -399,8 +391,6 @@ function create_dlts_book($books) {
       
       $created = save_dlts_book($node);
       
-      $created = FALSE;
-
       if (
         $created && 
         isset($created->nid)
@@ -425,7 +415,7 @@ function create_dlts_book($books) {
           $page_node = array(
             'book' => $created->nid,
             'status' => 1,            
-            'language' => LANGUAGE_NONE, // only the book object can have multiple language
+            'language' => LANGUAGE_NONE,
             'is_part_of' => $book_identifier,
             'title' => $title,
             'hand_side' => $book_page['hand_side'],
