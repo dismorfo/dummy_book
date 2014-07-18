@@ -92,13 +92,14 @@ function partner_nid($identifier) {
 
 }
 
-function book_nid($identifier) {
+function book_nid($identifier, $language = LANGUAGE_NONE) {
 
   $query = new EntityFieldQuery;
   
   $result = $query
     ->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'dlts_book')
+    ->entityCondition('bundle', 'dlts_book') 
+    ->propertyCondition('language', $language)  
     ->fieldCondition('field_identifier', 'value', $identifier, '=')
     ->execute();
     

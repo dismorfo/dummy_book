@@ -4,7 +4,7 @@ function save_dlts_book( $node ) {
 
   global $user;
   
-  $book_exist = book_nid($node['identifier']);
+  $book_exist = book_nid( $node['identifier'], $node['node_language'] );
   
   if ($book_exist) {
   
@@ -27,6 +27,47 @@ function save_dlts_book( $node ) {
       'comment' => 0,
       'promote' => 0,
     );
+    
+    if ( $node['node_language'] == LANGUAGE_NONE)
+    {
+      $node['node_language'] = 'en';
+    }
+    
+    if ( $node['node_language'] != 'en' ) 
+    {
+    
+      $tnid = book_nid( $node['identifier'], 'en' );
+      
+      if ( $tnid ) 
+      {
+      
+        $source_node = node_load($tnid);
+        
+        // Wrap it with Entity API
+        $source_node_ewrapper = entity_metadata_wrapper('node', $source_node);      
+      
+        $source_node->tnid = $tnid;
+        
+        $source_node_ewrapper->save(); 
+      
+        $values['translate'] = 0;
+
+        $values['tnid'] = $tnid;      
+
+        $values['source'] = 'en';
+        
+      }
+      
+      else {
+      
+        drush_log(
+          t('English version does not exist', 'error')
+        );
+      
+      }
+    }
+    
+    $values['language'] = $node['node_language'];
   
     $entity = entity_create('node', $values);
   
@@ -38,8 +79,6 @@ function save_dlts_book( $node ) {
   }
   
   $ewrapper->title->set( $node['title'] );
-  
-  $entity->language = $node['language']; // we only set language to the book object
   
   $pages = (array) $node['pages'];
 
@@ -248,20 +287,23 @@ function create_dlts_book_from_xml($books) {
         $publishers =
         $pdf_files =
         $subjects = array();
-
-      /** book pages */
-      foreach ($child->pages->children() as $page) {
-
-        $page = (array) $page;
-
-        $page['service'] = (array) $page['service'];
-
-        $page['image'] = (array) $page['image'];
-
-        $pages_array[] = (array) $page;
-
+        
+      $node_language = (string)$child->language[0];
+        
+      if (
+        $node_language == 'en' || 
+        $node_language == LANGUAGE_NONE
+      ) 
+      {
+        /** book pages */
+        foreach ($child->pages->children() as $page) {
+          $page = (array) $page;
+          $page['service'] = (array) $page['service'];
+          $page['image'] = (array) $page['image'];
+          $pages_array[] = (array) $page;
+        }
       }
-      
+
       /** contributors */ 
       if ($metadata->contributors) {
         foreach ($metadata->contributors->children() as $contributor) {
@@ -347,12 +389,14 @@ function create_dlts_book_from_xml($books) {
       
       $book_identifier = (string)$metadata->identifier[0];
 
-      // $book_title = $book_identifier = (string)uniqid();            
+      /**
+       * $book_title = $book_identifier = (string)uniqid();            
+       */
 
       $node = array(
         'title' => $book_title,
+        'node_language' => $node_language,
         'title_long' => (string)$metadata->title_long[0],        
-        'status' => (string) $metadata->status[0],
         'language' => (string) $child->language[0],
         'subtitle' => (string) $metadata->subtitle[0],
         'page_count' => (int) $metadata->page_count[0],

@@ -2,9 +2,8 @@
 <add>
 	<node>
 		<title>The liberator</title>
-		<identifier>lib000001</identifier>
+		<identifier>test</identifier>
 		<language>en</language>
-		<status>1</status>
 		<metadata>
 			<isPartOf>
 				<collection>94b17163-75c2-42c4-b258-754e9fc9e0ea</collection>
@@ -37,7 +36,7 @@
 			<call_number></call_number>
 			<description></description>
 			<dimensions></dimensions>
-			<identifier>lib000001</identifier>
+			<identifier>test</identifier>
 			<language>en</language>
 			<language_code>eng</language_code>
 			<number></number>
@@ -70,13 +69,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5753</width>
-					<height>7400</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 2</title>
@@ -88,13 +80,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5607</width>
-					<height>7233</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 3</title>
@@ -106,13 +91,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5670</width>
-					<height>7421</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 4</title>
@@ -124,13 +102,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5607</width>
-					<height>7275</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 5</title>
@@ -142,13 +113,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5691</width>
-					<height>7400</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 6</title>
@@ -160,13 +124,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5607</width>
-					<height>7275</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 7</title>
@@ -178,13 +135,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5649</width>
-					<height>7421</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 8</title>
@@ -196,13 +146,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5649</width>
-					<height>7275</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 9</title>
@@ -214,13 +157,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5691</width>
-					<height>7421</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 10</title>
@@ -232,13 +168,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5711</width>
-					<height>7296</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 11</title>
@@ -250,13 +179,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5628</width>
-					<height>7400</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 12</title>
@@ -268,13 +190,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5753</width>
-					<height>7296</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 13</title>
@@ -286,13 +201,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5649</width>
-					<height>7421</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 14</title>
@@ -304,13 +212,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5732</width>
-					<height>7275</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 15</title>
@@ -322,13 +223,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5607</width>
-					<height>7400</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 16</title>
@@ -340,13 +234,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5795</width>
-					<height>7275</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 17</title>
@@ -358,13 +245,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5607</width>
-					<height>7400</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 18</title>
@@ -376,13 +256,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5732</width>
-					<height>7296</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 19</title>
@@ -394,13 +267,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5545</width>
-					<height>7400</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 20</title>
@@ -412,13 +278,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5816</width>
-					<height>7275</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 21</title>
@@ -430,13 +289,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5503</width>
-					<height>7275</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 22</title>
@@ -448,13 +300,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5774</width>
-					<height>7316</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 23</title>
@@ -466,13 +311,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5607</width>
-					<height>7316</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 24</title>
@@ -484,13 +322,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5816</width>
-					<height>7296</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 25</title>
@@ -502,13 +333,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5524</width>
-					<height>7275</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 26</title>
@@ -520,13 +344,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5774</width>
-					<height>7316</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 27</title>
@@ -538,13 +355,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5482</width>
-					<height>7254</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 28</title>
@@ -556,13 +366,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5774</width>
-					<height>7337</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 29</title>
@@ -574,13 +377,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5503</width>
-					<height>7254</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 30</title>
@@ -592,13 +388,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5711</width>
-					<height>7379</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 31</title>
@@ -610,13 +399,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5607</width>
-					<height>7316</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 32</title>
@@ -628,13 +410,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5711</width>
-					<height>7400</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 33</title>
@@ -646,13 +421,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5482</width>
-					<height>7233</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 34</title>
@@ -664,13 +432,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5711</width>
-					<height>7400</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 35</title>
@@ -682,13 +443,6 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5607</width>
-					<height>7233</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 			<page>
 				<title>liberator Page Image 36</title>
@@ -700,14 +454,68 @@
 				<read_order>0</read_order>
 				<page_type>0</page_type>
 				<visible>1</visible>
-				<metadata>
-					<width>5774</width>
-					<height>7421</height>
-					<levels>5</levels>
-					<dwtLevels>5</dwtLevels>
-					<compositingLayerCount>1</compositingLayerCount>
-				</metadata>
 			</page>
 		</pages>
 	</node>
+	<node>
+		<title>The liberator</title>
+		<identifier>test</identifier>
+		<language>ar</language>
+		<metadata>
+			<isPartOf>
+				<collection>94b17163-75c2-42c4-b258-754e9fc9e0ea</collection>
+				<multivol volume="1">multi-volume-i</multivol>
+			</isPartOf>
+			<subjects>
+				<subject>Socialism -- Periodicals</subject>
+				<subject>Socialism -- United States -- Periodicals</subject>
+				<subject>Communism -- Periodicals</subject>
+				<subject>Communism -- United States -- Periodicals</subject>
+			</subjects>
+			<representative_image>http://dev-dl-pa.home.nyu.edu/books/sites/default/files/lib000005/lib000005_thumb.jpg</representative_image>
+			<authors>
+				<autor>Eastman, Max, 1883-1969, ed.</autor>
+				<autor>Eastman, Crystal, 1881-1928, ed.</autor>
+				<autor>Watts, Theodore F., ctb.</autor>
+			</authors>
+			<contributors>
+			</contributors>
+			<creators>
+			</creators>
+			<editor>
+			</editor>
+			<publisher>
+				<publisher>Liberator Publishing Co.</publisher>
+			</publisher>
+			<other_version></other_version>
+			<handle>http://hdl.handle.net/2333.1/70rxwfz5</handle>
+			<binding_orientation>0</binding_orientation>
+			<call_number></call_number>
+			<description></description>
+			<dimensions></dimensions>
+			<identifier>test</identifier>
+			<language>ar</language>
+			<language_code>Arabic</language_code>
+			<number></number>
+			<page_count>36</page_count>
+			<pdf_files>
+				<pdf_file>http://dev-dl-pa.home.nyu.edu/books/sites/default/files/lib000005/lib000005_hi.pdf</pdf_file>
+				<pdf_file>http://dev-dl-pa.home.nyu.edu/books/sites/default/files/lib000005/lib000005_lo.pdf</pdf_file>
+			</pdf_files>
+			<publication_date></publication_date>
+			<publication_date_text>1918--1918-1924</publication_date_text>
+			<publication_location>New York</publication_location>
+			<read_order>0</read_order>
+			<rights></rights>
+			<scan_date></scan_date>
+			<scan_order>0</scan_order>
+			<scanning_notes></scanning_notes>
+			<sequence_count>36</sequence_count>
+			<subtitle></subtitle>
+			<title_long>The liberator</title_long>
+			<volume></volume>
+		</metadata>
+	</node>		
+	
+	
 </add>
