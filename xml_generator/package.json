@@ -1,20 +1,20 @@
 {
-  "name": "book",
-  "description": "Get books from generic site",
+  "name": "xml_generator",
+  "description": "Get books using DLTS Book API endpoints",
   "version": "0.0.1",
   "author": "Alberto Ortiz Flores <aortiz@nyu.edu>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dismorfo/book.git"
+    "url": "https://github.com/dismorfo/dummy_book.git"
   },
   "bugs": {
-    "url": "http://github.com/dismorfo/book/issues"
+    "url": "http://github.com/dismorfo/dummy_book/issues"
   },
   "license": "Apache-2.0",
   "engines": [
     "node >= 0.8.0"
   ],
-  "main": "index.js",
+  "main": "awdl.js",
   "dependencies": {
     "request": "*",
     "js2xmlparser": "*"
