@@ -6,6 +6,8 @@ Generate XML from DLTS books from DLTS Books API endpoints using NodeJS.
 ## Installation
 
 ```bash
+$ git clone https://github.com/dismorfo/dummy_book.git
+$ cd xml_generator
 $ npm install
 ```
 
