@@ -27,7 +27,7 @@ function books_callback (error, response, body) {
 
                    var book = { node : JSON.parse(body) }
                    
-                   fs.writeFile( require('path').dirname(require.main.filename) + '/xml/' + element.identifier + '.xml' , js2xmlparser('add', book), function (err) {
+                   fs.writeFile( require('path').dirname(require.main.filename) + '/xml/liberator/' + element.identifier + '.xml' , js2xmlparser('add', book), function (err) {
 
                        if (err) return console.log(err)
              
