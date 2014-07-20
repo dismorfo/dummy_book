@@ -1,7 +1,7 @@
 XML generator
 ==========
 
-Generate XML from DLTS books from DLTS Books API endpoints using NodeJS.
+Generate DLTS books XML from DLTS Books API endpoints using NodeJS.
 
 ## Installation
 
