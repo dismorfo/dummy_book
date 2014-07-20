@@ -1,10 +1,12 @@
 <?php
 
-function save_dlts_book( $node ) {
+function save_dlts_book( $node, $language = 'en' ) {
 
   global $user;
   
-  $book_exist = book_nid( $node['identifier'], $node['node_language'] );
+  $node_language = ( isset($node['node_language']) ? $node['node_language'] : $language );
+  
+  $book_exist = book_nid( $node['identifier'], $node_language );
   
   if ($book_exist) {
   
@@ -28,46 +30,58 @@ function save_dlts_book( $node ) {
       'promote' => 0,
     );
     
-    if ( $node['node_language'] == LANGUAGE_NONE)
+    if ( $node_language == LANGUAGE_NONE)
     {
-      $node['node_language'] = 'en';
+      $node_language = 'en';
     }
     
-    if ( $node['node_language'] != 'en' ) 
+    if ( $node_language != 'en' ) 
     {
     
+      // find if the english version of this book exist
       $tnid = book_nid( $node['identifier'], 'en' );
       
       if ( $tnid ) 
       {
       
-        $source_node = node_load($tnid);
+        // load the source
+        $source_node = node_load( $tnid );
         
         // Wrap it with Entity API
-        $source_node_ewrapper = entity_metadata_wrapper('node', $source_node);      
-      
+        $source_node_ewrapper = entity_metadata_wrapper( 'node', $source_node );
+
+        // set nid as tnid
         $source_node->tnid = $tnid;
-        
+
+        // save source
         $source_node_ewrapper->save(); 
-      
+
+        // not sure why this is needed
         $values['translate'] = 0;
 
+        // set source nid as the tnid for the translation
         $values['tnid'] = $tnid;      
 
+        // english is the default language for the books object
         $values['source'] = 'en';
-        
+
       }
       
+      // die as soon as possible
       else {
-      
+
         drush_log(
           t('English version does not exist', 'error')
         );
-      
+        
+        die();
+
+        return FALSE;
+
       }
     }
     
-    $values['language'] = $node['node_language'];
+    $values['language'] = $node_language;
   
     $entity = entity_create('node', $values);
   
@@ -81,7 +95,7 @@ function save_dlts_book( $node ) {
   $ewrapper->title->set( $node['title'] );
   
   $pages = (array) $node['pages'];
-
+  
   $publication_date = $node['publication_date'];
 
   $scan_date = $node['scan_date'];
@@ -89,7 +103,7 @@ function save_dlts_book( $node ) {
   $handle = $node['handle'];
   
   $ewrapper->field_identifier->set( $node['identifier'] );
-  
+
   $collections_nids = array();
   
   foreach($node['collections'] as $collection) {
@@ -98,26 +112,15 @@ function save_dlts_book( $node ) {
       $collections_nids[] = $nid;
     }
     else {
-      drush_log( t('Book "@title" is part of collection "@collection", but collection does not exist. Skip.', array( '@title' => $node['title'], '@collection' => $collection, ) ), 'warning' );
+      drush_log( 
+        t('Book "@title" is part of collection "@collection", but collection does not exist. Skip.', array( '@title' => $node['title'], '@collection' => $collection, ) ), 'warning' 
+      );
     }
   }
 
-  /**
-   * this need to be fix
-   */
-  $multivol_nids[] = array();
-  
-  foreach($node['multivol'] as $multivol) {
-    $nid = multivol_nid($multivol['identifier']);
-    if ($nid) {
-      $multivol_nids[] = $nid;
-    }
-    else {
-      drush_log( t('Book "@title" is part of multi volume set "@multivol", but multi volume does not exist. Skip.', array( '@title' => $node['title'], '@multivol' => $multivol['identifier'], ) ), 'warning' );
-    }
+  if ( !empty($collections_nids) ) {
+    $ewrapper->field_collection->set( $collections_nids );
   }
-  
-  $ewrapper->field_collection->set( $collections_nids );
   
   if (!empty($node['isbn'])) {
     $ewrapper->field_isbn->set( $node['isbn'] );
@@ -137,10 +140,6 @@ function save_dlts_book( $node ) {
   
   if (!empty($node['description'])) {
     $ewrapper->field_description->set( $node['description'] );  
-  }  
-  
-  if (!empty($node['page_count'])) {
-    $ewrapper->field_page_count->set( $node['page_count'] );  
   }  
   
   if (!empty($node['editor'])) {
@@ -184,15 +183,24 @@ function save_dlts_book( $node ) {
   }
 
   if (!empty($node['binding_orientation'])) {
-    $ewrapper->field_binding_orientation->set( $node['binding_orientation'] );
+    $ewrapper->field_binding_orientation->set( (int)$node['binding_orientation'] );
   }
 
   if (!empty($node['scan_order'])) {    
-    $ewrapper->field_scan_order->set( $node['scan_order'] );
+    $ewrapper->field_scan_order->set( (int)$node['scan_order'] );
+  }
+  
+  if (!empty($node['page_count'])) {    
+    $ewrapper->field_page_count->set( (int)$node['page_count'] );
   }
 
+  if (!empty($node['sequence_count'])) {    
+    $ewrapper->field_sequence_count->set( (int)$node['sequence_count'] );
+  }
+
+
   if (!empty($node['read_order'])) {  
-    $ewrapper->field_read_order->set( $node['read_order'] );
+    $ewrapper->field_read_order->set( (int)$node['read_order'] );
   }
   
   if (!empty($node['publication_location'])) {  
@@ -215,17 +223,13 @@ function save_dlts_book( $node ) {
     }
   }
 
-  if (!empty($node['language_code'])) {
-    $ewrapper->field_language_code ->set( array( $node['language_code'] ) ); 
-  }  
-
-  if (!empty($node['language_code'])) {
-    $ewrapper->field_language_code ->set( array( $node['language_code'] ) ); 
-  }  
-
   if (!empty($node['language'])) {
     $ewrapper->field_language ->set( array( $node['language'] ) ); 
-  }
+  }  
+
+  if (!empty($node['language_code'])) {
+    $ewrapper->field_language_code ->set( array( $node['language_code'] ) ); 
+  }  
 
   if (!empty($node['pdf_files'])) {
 	$pdf_files = array();
@@ -239,8 +243,6 @@ function save_dlts_book( $node ) {
     $ewrapper->field_pdf_file->set( $pdf_files );
   }
 
-  $ewrapper->field_sequence_count->set( count($pages) );
-  
   if (!empty($node['subjects'])) {
     $vocabulary = taxonomy_vocabulary_machine_name_load('subjects');
     $subjects = array();
@@ -259,6 +261,35 @@ function save_dlts_book( $node ) {
   
   $ewrapper->save(); 
   
+  /**
+   * Multi volume book
+   */
+
+  if ( $node_language == 'en' ) {
+  
+    foreach( $node['multivol'] as $multivol ) {
+  
+      $multivol_nid = multivol_nid($multivol['identifier']);
+    
+      if ($multivol_nid) {
+    
+        // $multivol['title'] = $node['title_long'] . ' ' . t('Volume') . ' ' . $multivol['volume'];
+        
+        $multivol['title'] = $node['title_long'];
+       
+        $multivol['book'] = $node['identifier'];
+    
+        $dlts_multivol_book = create_dlts_multivol_book($multivol);
+    
+      }
+    
+      else {
+        drush_log( t('Book "@title" is part of multi volume set "@multivol", but multi volume does not exist. Skip.', array( '@title' => $node['title'], '@multivol' => $multivol['identifier'], ) ), 'warning' );
+      }
+
+    }
+  }
+  
   return $entity;
   
 }
@@ -269,13 +300,22 @@ function create_dlts_book_from_xml($books) {
       
     $xml = simplexml_load_file($value->uri);
     
-    if (!$xml) drush_log( t('File @file not found', array('@file' => $value->uri)), 'error');
+    if (!$xml) { 
+      
+      drush_log( 
+        t('File @file not found', array('@file' => $value->uri)), 'error'
+      );
+      
+      die();
+       
+    }
 
     foreach ($xml->node as $child) {
       
       $metadata = $child->metadata;
       
       $pages_array =
+        $stitch_page_array =
         $multivols =
         $other_versions =
         $isbns =
@@ -287,9 +327,15 @@ function create_dlts_book_from_xml($books) {
         $publishers =
         $pdf_files =
         $subjects = array();
-        
+
       $node_language = (string)$child->language[0];
-        
+
+      // $book_title = $book_identifier = (string)uniqid();
+
+      $book_title = (string)$child->title[0];
+      
+      $book_identifier = (string)$child->identifier[0];
+
       if (
         $node_language == 'en' || 
         $node_language == LANGUAGE_NONE
@@ -302,8 +348,14 @@ function create_dlts_book_from_xml($books) {
           $page['image'] = (array) $page['image'];
           $pages_array[] = (array) $page;
         }
+        
+        /** book pages */
+        foreach ($child->stitch_pages->children() as $stitch_page) {
+          $stitch_page_array[] = (array) $stitch_page;
+        }
+        
       }
-
+      
       /** contributors */ 
       if ($metadata->contributors) {
         foreach ($metadata->contributors->children() as $contributor) {
@@ -319,17 +371,18 @@ function create_dlts_book_from_xml($books) {
       }
 
       /** collections the book belong */
-      if ($metadata->isPartOf->collection) {
-        foreach ($metadata->isPartOf->collection as $collection) {
+      if ($child->isPartOf->collection) {
+        foreach ($child->isPartOf->collection as $collection) {
           $collections[] = (string) $collection[0];
         }
       }
       
-      if ($metadata->isPartOf->multivol) {
-        foreach ($metadata->isPartOf->multivol as $multivol) {
+      if ($child->isPartOf->multivol) {
+        foreach ($child->isPartOf->multivol as $multivol) {
           $multivols[] = array(
             'identifier' => (string) $multivol[0],
             'volume' => (int) $multivol->attributes()->volume[0], 
+            'collection' => (string)$multivol->attributes()->collection[0], 
           );
 	    }
 	  }
@@ -385,30 +438,21 @@ function create_dlts_book_from_xml($books) {
         }
       }	  
 
-      $book_title = (string)$child->title[0];
-      
-      $book_identifier = (string)$metadata->identifier[0];
-
-      /**
-       * $book_title = $book_identifier = (string)uniqid();            
-       */
-
       $node = array(
         'title' => $book_title,
-        'node_language' => $node_language,
         'title_long' => (string)$metadata->title_long[0],        
-        'language' => (string) $child->language[0],
+        'node_language' => $node_language,
+        'language' => (string) $metadata->language[0],
         'subtitle' => (string) $metadata->subtitle[0],
         'page_count' => (int) $metadata->page_count[0],
+        'sequence_count' => (int) $metadata->sequence_count[0],
         'binding_orientation' => (int)$metadata->binding_orientation[0],
         'call_number' => (string)$metadata->call_number[0],
         'description' => (string)$metadata->description[0],
         'dimensions' => (string)$metadata->dimensions[0],
         'handle' => (string) $metadata->handle[0],
-        'language' => (string)$metadata->language[0],
         'language_code' => (string)$metadata->language_code[0],
         'number' => (string)$metadata->number[0],
-        'other_version' => $other_versions,
         'read_order' => (int)$metadata->read_order[0],
         'representative_image' => (string) $metadata->representative_image[0],
         'scan_order' => (int)$metadata->scan_order[0],
@@ -418,13 +462,13 @@ function create_dlts_book_from_xml($books) {
         'publication_location' => (string)$metadata->publication_location[0],
         'publication_date_text' => (string)$metadata->publication_date_text[0],
         'scan_date' => (string)$metadata->scan_date[0],
+        'other_version' => $other_versions,
         'isbn' => $isbns,
         'identifier' => $book_identifier,
         'collections' => $collections,
         'author' => $authors,
         'creator' => $creators,
         'contributor' => $contributors,
-        'sequence_count' => count($pages_array),
         'editor' => $editors,
         'publisher' => $publishers,
         'subjects' => $subjects,
@@ -440,35 +484,24 @@ function create_dlts_book_from_xml($books) {
         isset($created->nid)
 	  ) {
 
-        drush_log(t('Book "@title" was successfully processed. (nid: @nid)', array('@nid' => $created->nid, '@title' => $created->title )), 'ok');
+        drush_log(
+          t('Book "@title" was successfully processed. (nid: @nid)', array('@nid' => $created->nid, '@title' => $created->title )), 'ok'
+        );
 
         foreach($pages_array as $key => $book_page) {
-
-          $cropped_master_filename = $book_page['image'][0];
-
-          $service_copy_filename = $book_page['service'][0];
-          
-          // send FALSE overwrite while developing
-          $cropped_master = import_add_file($cropped_master_filename, FALSE);
-          
-		  // send FALSE overwrite while developing
-          $service_copy = import_add_file($service_copy_filename, FALSE);
 
           $title = (isset($book_page['title'])) ? $book_page['title'] : $book_title . ' ' . t('page @number', array('@number' => $book_page['sequence_number']));
 
           $page_node = array(
-            'book' => $created->nid,
-            'status' => 1,            
-            'language' => LANGUAGE_NONE,
-            'is_part_of' => $book_identifier,
             'title' => $title,
+            'is_part_of' => $book_identifier,
             'hand_side' => $book_page['hand_side'],
             'page_type' => $book_page['page_type'],
             'real_page_number' => $book_page['page'],
             'sequence_number' => $book_page['sequence'],
-            'visible' => $page['visible'],
-            'cropped_master' => $cropped_master,  
-            'service_copy' => $service_copy,          
+            'visible' => $book_page['visible'],
+            'cropped_master' => $book_page['image'][0],  
+            'service_copy' => $book_page['service'][0],          
           );
 
           $this_book_page = create_dlts_book_page( $page_node );
@@ -478,6 +511,29 @@ function create_dlts_book_from_xml($books) {
           }
 
         }
+
+        foreach ($stitch_page_array as $key => $stitch_page) {
+
+          $title = (isset($stitch_page['title'])) ? $stitch_page['title'] : $book_title . ' ' . t('page @number', array('@number' => $stitch_page['sequence_number_left'] . '-' . $stitch_page['sequence_number_right'] ) ) ;
+
+          $stitch_page_node = array(
+            'title' => $title,
+            'is_part_of' => $book_identifier,
+            'stitch_image' => $stitch_page['stitch_image'],
+            'sequence_number_left' => $stitch_page['sequence_number_left'],
+            'sequence_number_right' => $stitch_page['sequence_number_right'],
+            'page_number_left' => $stitch_page['page_number_left'],
+            'page_number_right' => $stitch_page['page_number_right'],
+          );
+
+          $this_stitch_page = create_dlts_book_stitched_page( $stitch_page_node );
+
+          if ($this_stitch_page->nid) {
+             drush_log( t('Book page "@title" part of "@book" was successfully processed. (nid: @nid)', array('@nid' => $this_stitch_page->nid, '@title' => $this_stitch_page->title, '@book' => $created->title )), 'ok');
+          }
+
+        }
+
       }
     }
   }

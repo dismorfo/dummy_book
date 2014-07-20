@@ -20,15 +20,15 @@ function create_dlts_multivol( $node ) {
   
     $entity = entity_create('node', $values);
 	
-	$entity->exists = 0;
-  
   }
   
   else {
+
     $entity = node_load($exists);
 	  
-    $entity->exists = 1;
   }
+  
+  $entity->language = LANGUAGE_NONE;
   
   // The entity is now created, but we have not yet simplified use of it.
   // Now create an entity_metadata_wrapper around the new node entity

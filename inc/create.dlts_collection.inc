@@ -27,7 +27,7 @@ function create_dlts_collection( $node ) {
       'comment' => 0,
       'promote' => 0,
     );
-  
+
     $entity = entity_create('node', $values);
   
     // The entity is now created, but we have not yet simplified use of it.
@@ -36,6 +36,8 @@ function create_dlts_collection( $node ) {
     $ewrapper = entity_metadata_wrapper('node', $entity);
   
   }
+  
+  $entity->language = LANGUAGE_NONE;    
 
   // Using the wrapper, we do not have to worry about telling Drupal
   // what language we are using. The Entity API handles that for us.

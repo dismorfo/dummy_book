@@ -4,8 +4,14 @@ function create_dlts_multivol_book($node) {
 	
   global $user;
   
-  $multivol_book_exist = multivol_book_nid($node['identifier'], $node['volume_number']);
+  $multivol_exist = multivol_nid($node['identifier']);  
   
+  if (!$multivol_exist) return FALSE;
+
+  $multivol_book_exist = multivol_book_nid($node['identifier'], $node['volume'], $node['collection']);
+  
+  drush_print_r($multivol_book_exist);  
+      
   if ($multivol_book_exist) {
   
     // Load the node by NID
@@ -37,37 +43,42 @@ function create_dlts_multivol_book($node) {
   
   }
   
+  $entity->language = LANGUAGE_NONE;      
+  
   $ewrapper->title->set( $node['title'] );
   
-  if ($node['collections']) {
-
-  	$collections_nids = array();
-
-    foreach($node['collections'] as $collection) {
-  	  $nid = collection_nid($collection);
-  	  if ($nid) {
-        $collections_nids[] = $nid;
-	  }
-	  else {
+  if ($node['collection']) {
+  
+    $nid = collection_nid($node['collection']);
+    
+  	if ($nid) {
+      $ewrapper->field_collection->set( array( $nid ) );
+  	} 
+	else {
 	    drush_log( t('Multi Volume Book "@title" is part of collection "@collection", but collection does not exist. Skip.', array( '@title' => $node['title'], '@collection' => $collection, ) ), 'warning' );
-	  }
-    }
-	$ewrapper->field_collection->set( $collections_nids );
+	}
   }
   
   if ($node['identifier']) {
-    $ewrapper->field_identifier->set( $node['identifier'] );
+    $ewrapper->field_identifier->set( uniqid() );
   }
+  
+  if ($multivol_exist) {
+    $ewrapper->field_multivol->set( $multivol_exist );
+  }  
 
-  if ($node['volume_number']) {
-    $ewrapper->field_volume_number->set( $node['volume_number'] );
+  if ($node['volume']) {
+    $ewrapper->field_volume_number->set( (int)$node['volume'] );
   }
   
   if ($node['book']) {
-    $book_exist = book_nid($node['book']);
+  
+    $book_exist = book_nid($node['book'], 'en');
+    
     if ($book_exist) {
       $ewrapper->field_book->set( $book_exist ) ;
     }
+    
   }
   
   if ($node['multivol']) {

@@ -36,6 +36,8 @@ function create_dlts_partner( $node ) {
     $ewrapper = entity_metadata_wrapper('node', $entity);
   
   }
+  
+  $entity->language = LANGUAGE_NONE;    
 
   $ewrapper->title->set( $node['title'] );
   

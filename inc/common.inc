@@ -1,5 +1,50 @@
 <?php
 
+function image_to_jpg( $sourse, $overwrite = TRUE ) {
+    
+  if (!file_exists($sourse)) return FALSE;
+
+  /**
+   * Files folder real path
+   */
+  $dupal_file_path = drupal_realpath('public://');
+  
+  $pathInfo = pathinfo( $sourse );
+
+  $localFile = $dupal_file_path . '/' . $pathInfo['filename'] . '.jpg';
+  
+  if ( file_exists($localFile) && !$overwrite ) return $localFile;
+
+  $im = new Imagick($sourse);
+  
+  // convert to jpg 
+  $im->setImageColorspace(255);
+
+  $im->setCompression(Imagick::COMPRESSION_JPEG);
+
+  $im->setCompressionQuality(60);
+
+  $im->setImageFormat('jpeg');
+
+  $jp2_support = $im->queryFormats( 'JP2' );
+
+  $tiff_support = $im->queryFormats( 'TIFF' );
+
+  if ( !empty($tiff_support) && !empty($jp2_support) ) {
+
+    // write image on server 
+    $im->writeImage($localFile);
+
+    $im->clear();
+
+    $im->destroy();
+
+  }
+  
+  return file_exists($localFile) ? $localFile : FALSE;
+
+}
+
 function import_get_content($URL) {
    
    drush_log( t('Requesting external content @url', array('@url' => $URL) ), 'ok') ;
