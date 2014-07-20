@@ -4,12 +4,13 @@
 		<title>The liberator</title>
 		<identifier>test</identifier>
 		<language>en</language>
-		<metadata>
 			<isPartOf>
 				<collection>94b17163-75c2-42c4-b258-754e9fc9e0ea</collection>
 				<partner>dlts</partner>
 				<multivol volume="1" collection="94b17163-75c2-42c4-b258-754e9fc9e0ea">multi-volume-i</multivol>
 			</isPartOf>
+		<metadata>
+
 			<subjects>
 				<subject>Socialism -- Periodicals</subject>
 				<subject>Socialism -- United States -- Periodicals</subject>
@@ -462,12 +463,13 @@
 		<title>The liberator</title>
 		<identifier>test</identifier>
 		<language>ar</language>
-		<metadata>
 			<isPartOf>
 				<collection>94b17163-75c2-42c4-b258-754e9fc9e0ea</collection>
 				<multivol volume="1" collection="94b17163-75c2-42c4-b258-754e9fc9e0ea">multi-volume-i</multivol>
 				<partner>dlts</partner>
 			</isPartOf>
+		<metadata>
+
 			<subjects>
 				<subject>Socialism -- Periodicals</subject>
 				<subject>Socialism -- United States -- Periodicals</subject>
