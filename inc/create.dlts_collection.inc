@@ -4,12 +4,12 @@ function create_dlts_collection( $node ) {
 
   global $user;
   
-  $exist = collection_nid($node['identifier']);
+  $exists = collection_nid( $node['identifier'] );
   
-  if ($exist) {
+  if ($exists) {
   
     // Load the node by NID
-    $entity = node_load($exist);
+    $entity = node_load($exists);
     
     // Wrap it with Entity API
     $ewrapper = entity_metadata_wrapper('node', $entity);
@@ -26,6 +26,7 @@ function create_dlts_collection( $node ) {
       'status' => 1,
       'comment' => 0,
       'promote' => 0,
+      'language' => LANGUAGE_NONE, // make sure we only translate the book object
     );
 
     $entity = entity_create('node', $values);
@@ -37,9 +38,8 @@ function create_dlts_collection( $node ) {
 
   }
   
-  // make sure we only translate the book object
-  $entity->language = LANGUAGE_NONE;
-
+  $entity->exists = $exists;
+  
   $uniqid = (string) uniqid();
 
   if ( isset( $node['title'] ) ) {
@@ -103,7 +103,19 @@ function create_dlts_collection_from_xml($files) {
             'name' => (string)$child->name[0],
           );
 
-          create_dlts_collection( $node );
+          $entity = create_dlts_collection( $node );
+
+          if (
+            $entity && 
+            isset($entity->nid)
+          )
+          {
+
+            $action = (!$entity->exists) ? 'created' : 'updated';
+
+            drush_log( t( 'Collection "@title" was @action.', array( '@title' => $entity->title, '@action' => $action ) ), 'ok' );
+
+          }
 
         }
 

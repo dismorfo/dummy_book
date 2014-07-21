@@ -13,8 +13,8 @@ function default_commands () {
         'create_dummy_partners',
         'create_dummy_series',
         'create_dummy_multivol',
-        'create_awdl_books',
-        'create_liberator_books',        
+        //'create_awdl_books',
+        //'create_liberator_books',        
       ),
     ),
 
@@ -79,36 +79,36 @@ function test() {
 
 function create_dummy_multivol() {
  create_dlts_multivol_from_xml(
-    file_scan_directory( __DIR__ . '/dummy_book/source/multivol', '/(.*)\.xml$/', array('recurse' => FALSE ))
+    file_scan_directory( __DIR__ . '/dummy_book/source/multivol', '/(.*)\.xml$/', array('recurse' => FALSE ) )
   );
 }
 
 function create_dummy_series() {
- create_dlts_collection_from_xml(
-    file_scan_directory( __DIR__ . '/dummy_book/source/series', '/(.*)\.xml$/', array('recurse' => FALSE ))
+ create_dlts_series_from_xml(
+    file_scan_directory( __DIR__ . '/dummy_book/source/series', '/(.*)\.xml$/', array('recurse' => FALSE ) )
   );
 }
 
 function create_dummy_partners() {
- create_dlts_collection_from_xml(
-    file_scan_directory( __DIR__ . '/dummy_book/source/partners', '/(.*)\.xml$/', array('recurse' => FALSE ))
+ create_dlts_partner_from_xml(
+    file_scan_directory( __DIR__ . '/dummy_book/source/partners', '/(.*)\.xml$/', array('recurse' => FALSE ) )
   );
 }
 
 function create_dummy_collections() {
  create_dlts_collection_from_xml(
-    file_scan_directory( __DIR__ . '/dummy_book/source/collections', '/(.*)\.xml$/', array('recurse' => FALSE ))
+    file_scan_directory( __DIR__ . '/dummy_book/source/collections', '/(.*)\.xml$/', array('recurse' => FALSE ) )
   );
 }
 
 function create_awdl_books() {
   create_dlts_book_from_xml(
-    file_scan_directory( __DIR__ . '/dummy_book/source/books/awdl', '/(.*)\.xml$/', array('recurse' => FALSE ))
+    file_scan_directory( __DIR__ . '/dummy_book/source/books/awdl', '/(.*)\.xml$/', array('recurse' => FALSE ) )
   );
 }
 
 function create_liberator_books() {
   create_dlts_book_from_xml(
-    file_scan_directory( __DIR__ . '/dummy_book/source/books/liberator', '/(.*)\.xml$/', array('recurse' => FALSE ))
+    file_scan_directory( __DIR__ . '/dummy_book/source/books/liberator', '/(.*)\.xml$/', array('recurse' => FALSE ) )
   );
 }

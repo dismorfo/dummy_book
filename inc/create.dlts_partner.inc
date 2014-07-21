@@ -26,6 +26,7 @@ function create_dlts_partner( $node ) {
       'status' => 1,
       'comment' => 0,
       'promote' => 0,
+      'language' => LANGUAGE_NONE, // make sure we only translate the book object
     );
   
     $entity = entity_create('node', $values);
@@ -34,11 +35,10 @@ function create_dlts_partner( $node ) {
     // Now create an entity_metadata_wrapper around the new node entity
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
-    
-    // make sure we only translate the book object
-    $entity->language = LANGUAGE_NONE;
 
   }
+  
+  $entity->exists = $exists;
 
   $uniqid = (string) uniqid();
 
@@ -70,7 +70,7 @@ function create_dlts_partner( $node ) {
 
 }
 
-function create_dlts_partner_from_xml($files) {
+function create_dlts_partner_from_xml( $files ) {
     
   foreach ($files as $file) {
       
@@ -93,7 +93,19 @@ function create_dlts_partner_from_xml($files) {
             'name' => (string) $child->name[0],
           );
 
-          create_dlts_partner( $node  );
+          $entity = create_dlts_partner( $node  );
+          
+          if (
+            $entity && 
+            isset($entity->nid)
+          )
+          {
+
+            $action = (!$entity->exists) ? 'created' : 'updated';
+
+            drush_log( t( 'Partner "@title" was @action.', array( '@title' => $entity->title, '@action' => $action ) ), 'ok' );
+
+          }          
 
         }
 

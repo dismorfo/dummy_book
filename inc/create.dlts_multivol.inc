@@ -4,7 +4,7 @@ function create_dlts_multivol( $node ) {
 	
   global $user;
   
-  $exists = multivol_nid($node['identifier']);
+  $exists = multivol_nid( $node['identifier'] );
   
   if (!$exists) {
   
@@ -17,16 +17,18 @@ function create_dlts_multivol( $node ) {
       'comment' => 0,
       'promote' => 0,
     );
-  
+
     $entity = entity_create('node', $values);
-	
+
   }
   
   else {
 
-    $entity = node_load($exists);
-	  
+    $entity = node_load( $exists );
+
   }
+
+  $entity->exists = $exists;
   
   $entity->language = LANGUAGE_NONE;
   
@@ -35,8 +37,6 @@ function create_dlts_multivol( $node ) {
   // to make getting and setting values easier
   $ewrapper = entity_metadata_wrapper('node', $entity);
   
-  // Using the wrapper, we do not have to worry about telling Drupal
-  // what language we are using. The Entity API handles that for us.
   $ewrapper->title->set( $node['title'] );
 
   $ewrapper->field_identifier->set( $node['identifier'] );
