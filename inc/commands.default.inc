@@ -13,8 +13,8 @@ function default_commands () {
         'create_dummy_partners',
         'create_dummy_series',
         'create_dummy_multivol',
-        //'create_awdl_books',
-        //'create_liberator_books',        
+        'create_awdl_books',
+        'create_liberator_books',        
       ),
     ),
 
