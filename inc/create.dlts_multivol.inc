@@ -50,3 +50,50 @@ function create_dlts_multivol( $node ) {
   return $entity;
 
 }
+
+function create_dlts_multivol_from_xml($files) {
+    
+  foreach ($files as $file) {
+      
+    if ( 
+      is_object($file) &&
+      isset($file->uri)
+    )
+    {
+          
+      $xml = simplexml_load_file( $file->uri );
+
+      if ($xml) {
+
+        foreach($xml->children() as $child) {
+  
+          $node = array(
+            'title' => (string)$child->title[0],
+            'identifier' => (string)$child->identifier[0],
+            'representative_image' => (string)$child->representative_image[0],
+            'handle' => (string)$child->handle[0],
+          );
+
+          $entity = create_dlts_multivol( $node );
+
+          if (
+            $entity && 
+            isset($entity->nid)
+          )
+          {
+
+            $action = (!$entity->exists) ? 'created' : 'updated';
+
+            drush_log( t( 'Multi volume "@title" was @action.', array( '@title' => $entity->title, '@action' => $action ) ), 'ok' );
+
+          }
+
+        }
+
+      }
+      
+    }
+    
+  }
+
+}

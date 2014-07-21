@@ -34,21 +34,73 @@ function create_dlts_partner( $node ) {
     // Now create an entity_metadata_wrapper around the new node entity
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
-  
+    
+    // make sure we only translate the book object
+    $entity->language = LANGUAGE_NONE;
+
+  }
+
+  $uniqid = (string) uniqid();
+
+  if ( isset( $node['title'] ) ) {
+    $ewrapper->title->set( $node['title'] );
+  }
+  else {
+    $ewrapper->title->set( 'partner ' . $uniqid );
   }
   
-  $entity->language = LANGUAGE_NONE;    
-
-  $ewrapper->title->set( $node['title'] );
+  if ( isset( $node['identifier'] ) ) {
+    $ewrapper->field_identifier->set( $node['identifier'] );
+  }
+  else {
+    $ewrapper->field_identifier->set( $uniqid );
+  }
   
-  $ewrapper->field_identifier->set( $node['identifier'] );
+  if ( isset( $node['code'] ) ) {
+    $ewrapper->field_code->set( $node['code'] );
+  }
 
-  $ewrapper->field_code->set( $node['code'] );
-
-  $ewrapper->field_name->set( $node['name'] );
+  if ( isset( $node['name'] ) ) {
+    $ewrapper->field_name->set( $node['name'] );
+  } 
   
   $ewrapper->save();
 
   return $entity;
+
+}
+
+function create_dlts_partner_from_xml($files) {
+    
+  foreach ($files as $file) {
+      
+    if ( 
+      is_object($file) &&
+      isset($file->uri)
+    )
+    {
+          
+      $xml = simplexml_load_file( $file->uri );
+
+      if ($xml) {
+
+        foreach( $xml->children() as $child ) {
+  
+          $node = array(
+            'title' => (string) $child->title[0],
+            'identifier' => (string) $child->identifier[0],
+            'code' => (string) $child->code[0],
+            'name' => (string) $child->name[0],
+          );
+
+          create_dlts_partner( $node  );
+
+        }
+
+      }
+      
+    }
+    
+  }
 
 }

@@ -34,29 +34,91 @@ function create_dlts_collection( $node ) {
     // Now create an entity_metadata_wrapper around the new node entity
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
-  
+
   }
   
-  $entity->language = LANGUAGE_NONE;    
+  // make sure we only translate the book object
+  $entity->language = LANGUAGE_NONE;
 
-  // Using the wrapper, we do not have to worry about telling Drupal
-  // what language we are using. The Entity API handles that for us.
-  $ewrapper->title->set( $node['title'] );
+  $uniqid = (string) uniqid();
 
-  $ewrapper->field_code->set( $node['code'] );
-
-  $ewrapper->field_name->set( $node['name'] );  
-  
-  $ewrapper->field_identifier->set( $node['identifier'] );    
-
-  $partner_nid = partner_nid($node['partner']);
-
-  if ($partner_nid) {
-    $ewrapper->field_partner->set( array( $partner_nid ));
+  if ( isset( $node['title'] ) ) {
+    $ewrapper->title->set( $node['title'] );
   }
+  else {
+    $ewrapper->title->set( 'collection ' . $uniqid );
+  }
+  
+  if ( isset( $node['identifier'] ) ) {
+    $ewrapper->field_identifier->set( $node['identifier'] );
+  }
+  else {
+    $ewrapper->title->set( 'collection ' . $uniqid );
+  }
+  
+  if ( isset( $node['code'] ) ) {
+    $ewrapper->field_code->set( $node['code'] );
+  }
+
+  if ( isset( $node['name'] ) ) {
+    $ewrapper->field_name->set( $node['name'] );
+  }  
+
+  if ( isset( $node['partner'] ) ) {
+    $partner_nid = partner_nid($node['partner']);
+    if ($partner_nid) {
+      $ewrapper->field_partner->set( array( $partner_nid ));
+    }
+  }  
 
   $ewrapper->save();
 
   return $entity;
 
+}
+
+function create_dlts_collection_from_xml($files) {
+    
+  foreach ($files as $file) {
+      
+    if ( 
+      is_object($file) &&
+      isset($file->uri)
+    )
+    {
+          
+      $xml = simplexml_load_file($file->uri);
+
+      if ($xml) {
+            
+        foreach($xml->children() as $child) {
+  
+          $type = (string)$child->type[0];
+
+          $node = array(
+            'title' => (string)$child->title[0],
+            'identifier' => (string)$child->identifier[0],
+            'code' => (string)$child->code[0],
+            'partner' => (string)$child->partner[0],
+            'name' => (string)$child->name[0],
+          );
+
+          create_dlts_collection( $node );
+
+        }
+
+      }
+        
+      else {
+       drush_log( t( 'There was a problem reading file @uri as XML.', array( '@uri' => $value->uri ) ), 'error' );   
+      }
+    
+    }
+      
+    else {
+      drush_log( t('There was a problem reading file.'), 'error' );
+    }
+          
+  }
+    
 }

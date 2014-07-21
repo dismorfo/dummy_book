@@ -19,14 +19,14 @@ function create_dlts_series( $node ) {
     );
   
     $entity = entity_create('node', $values);
+    
+    $entity->language = LANGUAGE_NONE;
 
   }
   
   else {
     $entity = node_load($exists);
   }
-  
-  $entity->language = LANGUAGE_NONE;
   
   // The entity is now created, but we have not yet simplified use of it.
   // Now create an entity_metadata_wrapper around the new node entity
@@ -38,13 +38,48 @@ function create_dlts_series( $node ) {
   $ewrapper->title->set( $node['title'] );	
 
   $ewrapper->field_identifier->set( $node['identifier'] );
-  
+
   $ewrapper->field_handle->set( array('url' => $node['handle'] ) );
 
   // $ewrapper->representative_image->set( array('url' => $node['representative_image'] ) );
   
   $ewrapper->save();
-  
+
   return $entity;  
+
+}
+
+function create_dlts_series_from_xml($files) {
+    
+  foreach ($files as $file) {
+      
+    if ( 
+      is_object($file) &&
+      isset($file->uri)
+    )
+    {
+          
+      $xml = simplexml_load_file( $file->uri );
+
+      if ($xml) {
+
+        foreach($xml->children() as $child) {
+   
+          $node = array(
+            'title' => (string)$child->title[0],
+            'identifier' => (string)$child->identifier[0],
+            'representative_image' => (string)$child->representative_image[0],
+            'handle' => (string)$child->handle[0],
+          );
+
+          create_dlts_series( $node );
+
+        }
+
+      }
+      
+    }
+    
+  }
 
 }

@@ -1,6 +1,6 @@
 {
   "name": "xml_generator",
-  "description": "Get books using DLTS Book API endpoints",
+  "description": "Generate DLTS books XML from DLTS Books API endpoints.",
   "version": "0.0.1",
   "author": "Alberto Ortiz Flores <aortiz@nyu.edu>",
   "repository": {
