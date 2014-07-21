@@ -10,8 +10,6 @@ function create_dlts_multivol_book($node) {
 
   $multivol_book_exist = multivol_book_nid($node['identifier'], $node['volume'], $node['collection']);
   
-  drush_print_r($multivol_book_exist);  
-      
   if ($multivol_book_exist) {
   
     // Load the node by NID
@@ -32,6 +30,7 @@ function create_dlts_multivol_book($node) {
       'status' => 1,
       'comment' => 0,
       'promote' => 0,
+      'language' => LANGUAGE_NONE, // make sure we only translate the book object
     );
   
     $entity = entity_create('node', $values);
@@ -42,8 +41,6 @@ function create_dlts_multivol_book($node) {
     $ewrapper = entity_metadata_wrapper('node', $entity);
   
   }
-  
-  $entity->language = LANGUAGE_NONE;      
   
   $ewrapper->title->set( $node['title'] );
   

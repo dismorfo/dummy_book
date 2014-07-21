@@ -37,17 +37,23 @@ function save_dlts_book( $node, $language = 'en' ) {
     
     if ( $node_language != 'en' ) 
     {
-    
-      // find if the english version of this book exist
+        
+      // find if the English version of this book exist
       $tnid = book_nid( $node['identifier'], 'en' );
       
       if ( $tnid ) 
       {
-      
+          
+        // make sure the language exists
+        $enabled_language = add_language($node_language);     
+        
+        // if language does not exists, do not add the book
+        if (!$enabled_language) return FALSE;
+             
         // load the source
         $source_node = node_load( $tnid );
         
-        // Wrap it with Entity API
+        // wrap it with Entity API
         $source_node_ewrapper = entity_metadata_wrapper( 'node', $source_node );
 
         // set nid as tnid
@@ -62,60 +68,56 @@ function save_dlts_book( $node, $language = 'en' ) {
         // set source nid as the tnid for the translation
         $values['tnid'] = $tnid;      
 
-        // english is the default language for the books object
+        // English is the default language for the books object
         $values['source'] = 'en';
 
       }
       
-      // die as soon as possible
+      // return as soon as possible
       else {
 
-        drush_log(
-          t('English version does not exist', 'error')
-        );
-        
-        die();
+        drush_log( t( 'English version does not exist', 'error' ) );
 
         return FALSE;
 
       }
+
     }
     
     $values['language'] = $node_language;
-  
+
     $entity = entity_create('node', $values);
   
     // The entity is now created, but we have not yet simplified use of it.
     // Now create an entity_metadata_wrapper around the new node entity
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
-  
+
   }
-  
+
+  $collections_nids = 
+    $subjects = 
+    $pdf_files = array();
+
+  // find the max for this field and trunk it
   $ewrapper->title->set( $node['title'] );
-  
-  $pages = (array) $node['pages'];
-  
-  $publication_date = $node['publication_date'];
 
-  $scan_date = $node['scan_date'];
+  if ( !empty( $node['identifier'] ) ) {
+    $ewrapper->field_identifier->set( $node['identifier'] );
+  }
 
-  $handle = $node['handle'];
-  
-  $ewrapper->field_identifier->set( $node['identifier'] );
+  foreach ( $node['collections'] as $collection ) {
 
-  $collections_nids = array();
-  
-  foreach($node['collections'] as $collection) {
     $nid = collection_nid($collection);
-    if ($nid) {
+
+    if ( $nid ) {
       $collections_nids[] = $nid;
     }
+    
     else {
-      drush_log( 
-        t('Book "@title" is part of collection "@collection", but collection does not exist. Skip.', array( '@title' => $node['title'], '@collection' => $collection, ) ), 'warning' 
-      );
+      drush_log( t( 'Book "@title" is part of collection "@collection", but collection does not exist. Skip.', array( '@title' => $node['title'], '@collection' => $collection, ) ), 'warning' );
     }
+    
   }
 
   if ( !empty($collections_nids) ) {
@@ -198,7 +200,6 @@ function save_dlts_book( $node, $language = 'en' ) {
     $ewrapper->field_sequence_count->set( (int)$node['sequence_count'] );
   }
 
-
   if (!empty($node['read_order'])) {  
     $ewrapper->field_read_order->set( (int)$node['read_order'] );
   }
@@ -232,7 +233,6 @@ function save_dlts_book( $node, $language = 'en' ) {
   }  
 
   if (!empty($node['pdf_files'])) {
-	$pdf_files = array();
     foreach ($node['pdf_files'] as $file) {
       // send FALSE overwrite while developing
       $content = import_add_file($file, FALSE);
@@ -245,7 +245,6 @@ function save_dlts_book( $node, $language = 'en' ) {
 
   if (!empty($node['subjects'])) {
     $vocabulary = taxonomy_vocabulary_machine_name_load('subjects');
-    $subjects = array();
     foreach($node['subjects'] as $subject) {
       $term = taxonomy_get_term_by_name($subject);
       if ($term) {
@@ -328,13 +327,13 @@ function create_dlts_book_from_xml($books) {
         $pdf_files =
         $subjects = array();
 
-      $node_language = (string)$child->language[0];
+      $node_language = (string) $child->language[0];
 
-      // $book_title = $book_identifier = (string)uniqid();
+      // $book_title = $book_identifier = (string) uniqid();
 
-      $book_title = (string)$child->title[0];
+      $book_title = (string) $child->title[0];
       
-      $book_identifier = (string)$child->identifier[0];
+      $book_identifier = (string) $child->identifier[0];
 
       if (
         $node_language == 'en' || 

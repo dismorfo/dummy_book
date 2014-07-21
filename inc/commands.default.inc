@@ -74,7 +74,7 @@ function default_commands () {
 /** commands callback */
 
 function test() {
-    
+
 }
 
 function create_dummy_multivol() {

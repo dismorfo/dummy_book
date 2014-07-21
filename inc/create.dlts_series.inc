@@ -16,11 +16,10 @@ function create_dlts_series( $node ) {
       'status' => 1,
       'comment' => 0,
       'promote' => 0,
+      'language' => LANGUAGE_NONE, // make sure we only translate the book object
     );
-  
+
     $entity = entity_create('node', $values);
-    
-    $entity->language = LANGUAGE_NONE;
 
   }
   

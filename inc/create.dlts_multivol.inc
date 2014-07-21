@@ -16,6 +16,7 @@ function create_dlts_multivol( $node ) {
       'status' => 1,
       'comment' => 0,
       'promote' => 0,
+      'language' => LANGUAGE_NONE, // make sure we only translate the book object
     );
 
     $entity = entity_create('node', $values);
@@ -29,8 +30,6 @@ function create_dlts_multivol( $node ) {
   }
 
   $entity->exists = $exists;
-  
-  $entity->language = LANGUAGE_NONE;
   
   // The entity is now created, but we have not yet simplified use of it.
   // Now create an entity_metadata_wrapper around the new node entity
